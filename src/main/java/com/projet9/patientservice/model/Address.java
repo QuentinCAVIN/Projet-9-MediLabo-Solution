@@ -11,7 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "address")
+@Table(name = "address",
+        uniqueConstraints=
+@UniqueConstraint(columnNames={"number", "street"}))
 public class Address {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

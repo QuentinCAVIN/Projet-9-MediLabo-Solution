@@ -11,13 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "address",
-        uniqueConstraints =
-        @UniqueConstraint(columnNames = {"number", "street"}))
-public class Address {
+@Table
+public class Gender {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String number;
-    String street;
+    private int id;
+    @Column(unique = true)
+    String Gender;
 }

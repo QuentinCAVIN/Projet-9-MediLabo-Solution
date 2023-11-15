@@ -1,10 +1,10 @@
-package com.projet9.patientservice;
+package com.projet9.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PatientServiceApplicationTests {
+class GatewayApplicationTests {
 
 	@Test
 	void contextLoads() {

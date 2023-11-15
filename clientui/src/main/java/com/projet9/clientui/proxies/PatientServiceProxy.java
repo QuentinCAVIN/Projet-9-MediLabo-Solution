@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "patient-service" , url = "localhost:9001")
+@FeignClient(name = "gateway" , url = "localhost:9101")
 public interface PatientServiceProxy {
     @GetMapping(value = "/patients")
     List<PatientDto> getPatients();

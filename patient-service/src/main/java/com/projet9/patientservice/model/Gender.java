@@ -17,5 +17,5 @@ public class Gender {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(unique = true)
-    String Gender;
+    String gender;
 }

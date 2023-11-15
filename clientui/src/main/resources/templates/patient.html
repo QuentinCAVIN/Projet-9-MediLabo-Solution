@@ -23,21 +23,27 @@
       <thead>
       <tr>
         <th>Id</th>
-        <th>Full Name</th>
-        <th>User Name</th>
-        <th>Role</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Date of birth</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Phone number</th>
         <th>Action</th>
       </tr>
       </thead>
       <tbody>
-      <tr th:each="user : ${users}">
-        <td style="width: 10%" th:text="${user.id}"></td>
-        <td th:text="${user.fullname}"></td>
-        <td th:text="${user.username}"></td>
-        <td style="width: 25%" th:text="${user.role}"></td>
+      <tr th:each="patient : ${patients}">
+        <td style="width: 10%" th:text="${patient.id}"></td>
+        <td th:text="${patient.firstName}"></td>
+        <td th:text="${patient.lastName}"></td>
+        <td th:text="${patient.dateOfBirth}"></td>
+        <td th:text="${patient.gender}"></td>
+        <td th:text="${patient.address}"></td>
+        <td th:text="${patient.phoneNumber}"></td>
         <td style="width: 15%" class="text-center">
-          <a th:href="@{/user/update/{id}(id=${user.id})}">Edit</a>&nbsp;|&nbsp;
-          <a th:href="@{/user/delete/{id}(id=${user.id})}">Delete</a>
+          <a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp; <!-- TODO a modifier-->
+          <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a> <!-- TODO a modifier-->
         </td>
       </tr>
       </tbody>

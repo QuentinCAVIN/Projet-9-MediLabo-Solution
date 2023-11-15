@@ -1,5 +1,6 @@
 package com.projet9.clientui.controller.Dto;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,9 +22,11 @@ public class PatientDto {
 
     private Date dateOfBirth;
 
-    private String gender;
 
-    private String address;
+    private GenderDto gender;
+
+
+    private AddressDto address;
 
     private String phoneNumber;
 }

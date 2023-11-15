@@ -9,5 +9,5 @@ import java.util.List;
 @FeignClient(name = "patient-service" , url = "localhost:9001")
 public interface PatientServiceProxy {
     @GetMapping(value = "/patients")
-    List<PatientDto> patients();
+    List<PatientDto> getPatients();
 }

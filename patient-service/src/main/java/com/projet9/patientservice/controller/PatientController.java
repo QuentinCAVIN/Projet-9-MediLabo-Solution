@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class PatientController {
     private PatientService patientService;
@@ -18,6 +20,11 @@ public class PatientController {
     @GetMapping("/patient/{id}")
     public ResponseEntity<Patient> getPatient(@PathVariable("id")int id){
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(id));
+    }
+
+    @GetMapping("/patients")
+    public ResponseEntity<List<Patient>> getPatients(){
+        return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatients());
     }
 
     @PostMapping("/patient")

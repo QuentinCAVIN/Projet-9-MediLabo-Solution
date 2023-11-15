@@ -4,7 +4,7 @@ import com.projet9.patientservice.model.Patient;
 import com.projet9.patientservice.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 
 @Service
@@ -20,6 +20,9 @@ public class PatientServiceImpl implements PatientService{
         return patientRepository.findById(id).orElse(null);
     }
 
+    public List<Patient> getPatients(){
+        return  patientRepository.findAll();
+    }
     public Patient savePatient(Patient patient){
         return patientRepository.save(patient);
     }

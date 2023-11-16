@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PatientController {
@@ -18,7 +19,7 @@ public class PatientController {
         this.patientService = patientService;
     }
     @GetMapping("/patient/{id}")
-    public ResponseEntity<Patient> getPatient(@PathVariable("id")int id){
+    public ResponseEntity<Optional<Patient>> getPatient(@PathVariable("id")int id){
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(id));
     }
 

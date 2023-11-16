@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <h2>Add new patient</h2>
+    </div>
+
+    <div class="row">
+        <form action="#" th:action="@{/patient/validate}" th:object="${patient}"  method="post" class="form-horizontal"
+              style="width: 100%">
+            <div class="form-group">
+
+                <label for="firstName" class="col-sm-2 control-label">First name</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{firstName}" id="firstName" placeholder="First name" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="lastName" class="col-sm-2 control-label">User Name</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{lastName}" id="lastName" placeholder="User Name" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dateOfBirth" class="col-sm-2 control-label">Date of birth</label>
+                <div class="col-sm-10">
+                    <input type="date" th:field="*{dateOfBirth}" th:format="'yyyy-MM-dd'" id="dateOfBirth" placeholder="DD/MM/YYYY" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="streetNumber" class="col-sm-2 control-label">Street number</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{address.number}" id="streetNumber" placeholder="n°" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('address.number')}" th:errors="*{address.number}"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="streetName" class="col-sm-2 control-label">Street name</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{address.street}"  id="streetName" placeholder="Street name" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address.street}"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="gender" class="col-sm-2 control-label">Gender</label>
+                <div class="col-sm-10">
+                    <select type="text" th:field="*{gender.gender}" id="gender" class="col-4">
+                        <option value="selected">Select a gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <p class="text-danger" th:if="${#fields.hasErrors('gender.gender')}" th:errors="*{gender.gender}"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="phoneNumber" class="col-sm-2 control-label">Phone number</label>
+                <div class="col-sm-10">
+                    <input type="phoneNumber" th:field="*{phoneNumber}" id="phoneNumber" placeholder="Phone number"
+                           class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <a class="btn btn-danger btn-sm" href="/user/list">Cancel</a>
+                    <input class="btn btn-primary btn-sm" type="submit" value="Add patient">
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

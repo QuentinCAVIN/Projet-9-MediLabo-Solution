@@ -1,6 +1,6 @@
 package com.projet9.clientui.proxies;
 
-import com.projet9.clientui.controller.Dto.PatientDto;
+import com.projet9.clientui.Dto.PatientDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

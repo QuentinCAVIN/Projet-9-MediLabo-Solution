@@ -1,5 +1,6 @@
-package com.projet9.clientui.controller.Dto;
+package com.projet9.clientui.Dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +10,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDto {
+public class GenderDto {
 
-    private String number;
-    private String street;
+    int id;
+
+    private String gender;
 
     @Override
     public String toString()
     {
-        return number + " " + street;
+        return gender;
     }
 }
+

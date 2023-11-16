@@ -1,11 +1,12 @@
-package com.projet9.clientui.controller.Dto;
+package com.projet9.clientui.Dto;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -20,7 +21,8 @@ public class PatientDto {
 
     private String lastName;
 
-    private Date dateOfBirth;
+
+    private LocalDate dateOfBirth;
 
 
     private GenderDto gender;

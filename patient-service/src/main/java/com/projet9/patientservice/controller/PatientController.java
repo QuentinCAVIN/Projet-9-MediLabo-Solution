@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class PatientController {
@@ -19,13 +18,18 @@ public class PatientController {
         this.patientService = patientService;
     }
     @GetMapping("/patient/{id}")
-    public ResponseEntity<Optional<Patient>> getPatient(@PathVariable("id")int id){
-        return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(id));
+    public ResponseEntity<Patient> getPatient(@PathVariable("id")int id){
+        if (patientService.getPatient(id).isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(id).get());
+        }
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        //TODO: Faut il générer une erreur ici?
     }
 
     @GetMapping("/patients")
     public ResponseEntity<List<Patient>> getPatients(){
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatients());
+        //TODO: Faut il renvoyer un code 404 en cas de liste vide?
     }
 
     @PostMapping("/patient")
@@ -36,15 +40,20 @@ public class PatientController {
 
     @PutMapping("/patient/{id}") //
     public ResponseEntity updatePatient(@PathVariable("id") int id, @Valid Patient patient){
+        if (patientService.getPatient(id).isPresent()){
+            patientService.savePatient(patient);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        else {return ResponseEntity.status(HttpStatus.NOT_FOUND).build();}
 
         //TODO, Comment Spring fait le lien entre l'objet a modifier et celui passé en paramètre?
-        patientService.savePatient(patient);
-    return ResponseEntity.status(HttpStatus.OK).build();
+        //TODO vérifier en fin d'étape 2 que le patient donnée en parametre est valide sinon faire un
+        // if(name!= null){patientDeLaBDD.setName(patientEnParametre.getName)}
     }
 
     @DeleteMapping("/patient/{id}")
     public ResponseEntity deletePatient(@PathVariable("id") int id){
-    patientService.deletePatient(id); //TODO implémenter vérification de présence du patient?
+    patientService.deletePatient(id); //TODO implémenter vérification de présence du patient? Soit il est éffacé ou soit il n'est pas présent = résultat final identique
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

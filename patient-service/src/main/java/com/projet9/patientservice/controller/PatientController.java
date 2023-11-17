@@ -26,7 +26,7 @@ public class PatientController {
         //TODO: Faut il générer une erreur ici?
     }
 
-    @GetMapping("/patients")
+    @GetMapping("/patient/list")
     public ResponseEntity<List<Patient>> getPatients() {
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatients());
         //TODO: Faut il renvoyer un code 404 en cas de liste vide?

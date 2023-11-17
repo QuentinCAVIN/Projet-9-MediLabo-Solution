@@ -1,5 +1,6 @@
 package com.projet9.clientui.Dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,7 @@ public class AddressDto {
     private String street;
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return number + " " + street;
     }
 }

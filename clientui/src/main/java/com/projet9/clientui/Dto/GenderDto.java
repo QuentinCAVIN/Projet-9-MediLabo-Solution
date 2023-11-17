@@ -1,6 +1,6 @@
 package com.projet9.clientui.Dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,7 @@ import lombok.Setter;
 public class GenderDto {
 
     int id;
+
 
     private String gender;
 

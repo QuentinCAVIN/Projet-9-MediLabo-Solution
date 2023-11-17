@@ -2,8 +2,10 @@ package com.projet9.clientui.controller;
 
 import com.projet9.clientui.Dto.PatientDto;
 import com.projet9.clientui.proxies.PatientServiceProxy;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -34,16 +36,20 @@ public class ClientController {
         return "update-patient";
     }
     @PostMapping("/patient/update")
-    public String validateUpdatePatient(@ModelAttribute PatientDto patientDto, Model model) {
+    public String validateUpdatePatient( @ModelAttribute PatientDto patientDto, Model model) {
 
         patientProxy.savePatient(patientDto);
         return "redirect:/patient";
     }
 
     @PostMapping("/patient/validate")
-    public String validatePatient(@ModelAttribute PatientDto patientDto, Model model) {
+    public String validatePatient(@Valid @ModelAttribute("patient") PatientDto patientDto,  BindingResult result, Model model) {
+        if (!result.hasErrors()){
         patientProxy.savePatient(patientDto);
         return "redirect:/patient";
+        }
+        model.addAttribute("patient", patientDto);
+        return "add-new-patient";
     }
 
     @GetMapping("patient/delete/{id}")

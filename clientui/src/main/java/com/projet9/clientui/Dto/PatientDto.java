@@ -1,13 +1,14 @@
 package com.projet9.clientui.Dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -16,17 +17,14 @@ import java.util.Date;
 public class PatientDto {
 
     private int id;
-
+    @NotEmpty
     private String firstName;
-
+    @NotEmpty
     private String lastName;
-
 
     private LocalDate dateOfBirth;
 
-
     private GenderDto gender;
-
 
     private AddressDto address;
 

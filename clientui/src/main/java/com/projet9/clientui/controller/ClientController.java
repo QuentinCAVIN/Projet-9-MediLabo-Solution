@@ -29,7 +29,8 @@ public class ClientController {
     }
 
     @PostMapping("/patient/validate")
-    public void validatePatient (Model model, @ModelAttribute @DateTimeFormat(pattern = "dd/MM/yyyy") PatientDto patientDto) {
-        System.out.println(patientDto.getFirstName()+ " ici " + patientDto.getDateOfBirth());
+    public String validatePatient (Model model, @ModelAttribute @DateTimeFormat(pattern = "dd/MM/yyyy") PatientDto patientDto) {
+        patientProxy.createPatient(patientDto);
+        return "redirect:/patient";
     }
 }

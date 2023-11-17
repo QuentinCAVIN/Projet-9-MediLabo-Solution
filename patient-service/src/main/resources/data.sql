@@ -3,11 +3,11 @@ INSERT IGNORE INTO gender (gender) VALUES ('Female');
 INSERT IGNORE INTO gender (gender) VALUES ('Not known');
 INSERT IGNORE INTO gender (gender) VALUES ('Not applicable');
 
-INSERT IGNORE INTO address (id, street) VALUES
-(1, '1 Brookside St'),
-(2, '2 High St'),
-(3, '3 Club Road'),
-(4, '4 Valley Dr');
+INSERT IGNORE INTO address (id, number, street) VALUES
+(1, '1', 'Brookside St'),
+(2, '2','High St'),
+(3, '3','Club Road'),
+(4, '4','Valley Dr');
 
 
 INSERT IGNORE INTO patient (first_name, last_name, date_of_birth, gender_id, address_id, phone_number) VALUES

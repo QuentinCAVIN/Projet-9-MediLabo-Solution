@@ -30,11 +30,11 @@ public class Patient {
 
     private LocalDate dateOfBirth;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "gender_id")
     private Gender gender;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL) //TODO Vérifier que quand on supprime un utilisateur, ça supprime l'addresse uniquement si il n'y a plus d'utilisateur uassocié. orphanRemoval = true?
     @JoinColumn(name = "address_id")
     @Valid
     private Address address;

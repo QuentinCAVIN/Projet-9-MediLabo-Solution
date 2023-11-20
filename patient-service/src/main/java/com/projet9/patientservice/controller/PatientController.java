@@ -29,7 +29,7 @@ public class PatientController {
 
     @GetMapping("/patient")
     public ResponseEntity<Optional<Patient>> getPatient(@RequestParam String firstName, @RequestParam String lastName) {
-            return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(firstName, lastName));
+        return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(firstName, lastName));
         //TODO: contrairement à get patient/id je renvoie un optional Patient car il est suceptible d'être vide
         // patient/id au dessus n'est normalement jamais vide
     }

@@ -34,7 +34,7 @@ public class Patient {
     @JoinColumn(name = "gender_id")
     private Gender gender;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "address_id")
     private Address address;
 

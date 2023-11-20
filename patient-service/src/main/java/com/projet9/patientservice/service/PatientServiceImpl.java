@@ -3,8 +3,7 @@ package com.projet9.patientservice.service;
 import com.projet9.patientservice.model.Address;
 import com.projet9.patientservice.model.Gender;
 import com.projet9.patientservice.model.Patient;
-import com.projet9.patientservice.repository.AddressRepository;
-import com.projet9.patientservice.repository.GenderRepository;
+//import com.projet9.patientservice.repository.AddressRepository;
 import com.projet9.patientservice.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +15,14 @@ import java.util.Optional;
 public class PatientServiceImpl implements PatientService {
 
     private PatientRepository patientRepository;
-    private GenderRepository genderRepository;
-    private AddressRepository addressRepository;
+    private GenderService genderService;
+    private AddressService addressService;
 
-    public PatientServiceImpl(PatientRepository patientRepository, GenderRepository genderRepository,
-                              AddressRepository addressRepository) {
+    public PatientServiceImpl(PatientRepository patientRepository, GenderService genderService,
+                              AddressService addressService) {
         this.patientRepository = patientRepository;
-        this.genderRepository = genderRepository;
-        this.addressRepository = addressRepository;
+        this.genderService = genderService;
+        this.addressService = addressService;
     }
 
     public Optional<Patient> getPatient(int id) {
@@ -38,20 +37,20 @@ public class PatientServiceImpl implements PatientService {
         return patientRepository.findAll();
     }
 
-    public Patient savePatient(Patient patient) {
+    public void savePatient(Patient patient) {
 
-        Gender gender = genderRepository.findByGender(patient.getGender().getGender());
+        Gender gender = genderService.getGender(patient.getGender().getGender());
         patient.setGender(gender);// Gender est obligatoirement définis dans l'uri et correspond aux gender en BDD pas besoin de vérif
 
 
         if (patient.getAddress() != null) {
-            Address existingAddress = addressRepository.findByNumberAndStreet(
+            Address existingAddress = addressService.getAddress(
                     patient.getAddress().getNumber(), patient.getAddress().getStreet());
             if (existingAddress != null) {
                 patient.setAddress(existingAddress);
             }
         }
-        return patientRepository.save(patient);
+        patientRepository.save(patient);
     }
 
     public void deletePatient(int id) {

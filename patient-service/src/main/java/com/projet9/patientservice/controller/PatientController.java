@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PatientController {
@@ -24,6 +25,13 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(id).get());
         } else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         //TODO: Faut il générer une erreur ici?
+    }
+
+    @GetMapping("/patient")
+    public ResponseEntity<Optional<Patient>> getPatient(@RequestParam String firstName, @RequestParam String lastName) {
+            return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(firstName, lastName));
+        //TODO: contrairement à get patient/id je renvoie un optional Patient car il est suceptible d'être vide
+        // patient/id au dessus n'est normalement jamais vide
     }
 
     @GetMapping("/patient/list")
@@ -48,8 +56,8 @@ public class PatientController {
         }
 
         //TODO, Comment Spring fait le lien entre l'objet a modifier et celui passé en paramètre?
-        //TODO vérifier en fin d'étape 2 que le patient donnée en parametre est valide sinon faire un
-        // if(name!= null){patientDeLaBDD.setName(patientEnParametre.getName)}
+        //TODO vérifier en fin d'étape 2 que le patient donné en parametre est valide sinon faire un
+        // if(name!= null){patientDeLaBDD.setName(patientEnParametre.getName)} (pour ne pas effacer les champs vide)
     }
 
     @DeleteMapping("/patient/{id}")

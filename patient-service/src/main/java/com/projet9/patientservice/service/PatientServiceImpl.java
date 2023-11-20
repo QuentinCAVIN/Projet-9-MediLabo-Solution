@@ -30,6 +30,10 @@ public class PatientServiceImpl implements PatientService {
         return patientRepository.findById(id);
     }
 
+    public Optional<Patient> getPatient(String firstName, String lastName) {
+        return patientRepository.findByFirstNameAndLastName(firstName,lastName);
+    }
+
     public List<Patient> getPatients() {
         return patientRepository.findAll();
     }
@@ -37,12 +41,15 @@ public class PatientServiceImpl implements PatientService {
     public Patient savePatient(Patient patient) {
 
         Gender gender = genderRepository.findByGender(patient.getGender().getGender());
-        patient.setGender(gender);// Gender est obligatoirement définis dans l'ui et correspond aux gender en BDD pas besoin de vérif
+        patient.setGender(gender);// Gender est obligatoirement définis dans l'uri et correspond aux gender en BDD pas besoin de vérif
 
-        Address existingAddress = addressRepository.findByNumberAndStreet(
-                patient.getAddress().getNumber(),patient.getAddress().getStreet());
-        if (existingAddress != null) {
-            patient.setAddress(existingAddress);
+
+        if (patient.getAddress() != null) {
+            Address existingAddress = addressRepository.findByNumberAndStreet(
+                    patient.getAddress().getNumber(), patient.getAddress().getStreet());
+            if (existingAddress != null) {
+                patient.setAddress(existingAddress);
+            }
         }
         return patientRepository.save(patient);
     }

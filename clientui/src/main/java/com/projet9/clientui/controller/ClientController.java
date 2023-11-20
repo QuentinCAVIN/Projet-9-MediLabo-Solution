@@ -36,14 +36,28 @@ public class ClientController {
         return "update-patient";
     }
     @PostMapping("/patient/update")
-    public String validateUpdatePatient( @ModelAttribute PatientDto patientDto, Model model) {
-
+    public String validateUpdatePatient(@Valid @ModelAttribute ("patient") PatientDto patientDto, BindingResult result, Model model) {
+        if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){ //TODO Vérifier si c'est pas un peu n'importe quoi (pour eviter les champs vide dans la bdd)
+            patientDto.setAddress(null);
+        }
+        if (!result.hasErrors()){
         patientProxy.savePatient(patientDto);
         return "redirect:/patient";
+        }
+        model.addAttribute("patient", patientDto);
+        return "update-patient";
     }
 
     @PostMapping("/patient/validate")
     public String validatePatient(@Valid @ModelAttribute("patient") PatientDto patientDto,  BindingResult result, Model model) {
+        PatientDto OptionalPatient = patientProxy.getPatient(patientDto.getFirstName(),patientDto.getLastName());
+        if (OptionalPatient != null) {
+            result.rejectValue("firstName",null,
+                    patientDto.getFirstName() + " " + patientDto .getLastName() + " is already registered");
+        }
+        if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){ //TODO Vérifier si c'est pas un peu n'importe quoi
+            patientDto.setAddress(null);
+        }
         if (!result.hasErrors()){
         patientProxy.savePatient(patientDto);
         return "redirect:/patient";

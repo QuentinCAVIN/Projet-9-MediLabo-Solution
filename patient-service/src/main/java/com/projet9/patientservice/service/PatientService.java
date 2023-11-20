@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface PatientService {
     public Optional<Patient> getPatient(int id);
 
+    public Optional<Patient> getPatient(String firstName, String lastName);
+
     List<Patient> getPatients();
 
     public Patient savePatient(Patient patient);

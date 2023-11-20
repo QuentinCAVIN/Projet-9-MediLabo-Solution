@@ -14,7 +14,7 @@ public class GenderDto {
 
     int id;
 
-
+    @NotEmpty
     private String gender;
 
     @Override

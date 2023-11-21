@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +76,7 @@ public class PatientServiceImplTest {
         dummyPatient.setId(1);
         dummyPatient.setFirstName("First Name");
         dummyPatient.setLastName("Last Name");
-        dummyPatient.setDateOfBirth(new Date());
+        dummyPatient.setDateOfBirth(LocalDate.of(2020, 1, 8));
         dummyPatient.setPhoneNumber("06 07 08 09 10");
         dummyPatient.setGender(dummyGender);
         dummyPatient.setAddress(dummyAddress);

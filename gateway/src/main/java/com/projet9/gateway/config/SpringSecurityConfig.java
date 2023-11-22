@@ -37,7 +37,7 @@ public class SpringSecurityConfig {
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.builder()
-                .username("admin")
+                .username("admin") //TODO ajouter variable d'environnement
                 .password(passwordEncoder().encode( "admin"))
                 .roles("ADMIN")
                 .build();

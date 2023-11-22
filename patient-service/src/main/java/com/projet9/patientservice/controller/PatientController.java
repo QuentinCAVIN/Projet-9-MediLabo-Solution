@@ -20,24 +20,17 @@ public class PatientController {
     }
 
     @GetMapping("/patient/{id}")
-    public ResponseEntity<Patient> getPatient(@PathVariable("id") int id) {
-        if (patientService.getPatient(id).isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(id).get());
-        } else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        //TODO: Faut il générer une erreur ici?
+    public ResponseEntity getPatient(@PathVariable("id") int id) {
+            return patientService.getPatient(id).map(ResponseEntity::ok).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/patient")
-    public ResponseEntity<Optional<Patient>> getPatient(@RequestParam String firstName, @RequestParam String lastName) {
-        return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(firstName, lastName));
-        //TODO: contrairement à get patient/id je renvoie un optional Patient car il est suceptible d'être vide
-        // patient/id au dessus n'est normalement jamais vide
+    public ResponseEntity getPatient(@RequestParam String firstName, @RequestParam String lastName) {
+        return patientService.getPatient(firstName, lastName).map(ResponseEntity::ok).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
     }
-
     @GetMapping("/patient/list")
-    public ResponseEntity<List<Patient>> getPatients() {
+    public ResponseEntity getPatients() {
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatients());
-        //TODO: Faut il renvoyer un code 404 en cas de liste vide?
     }
 
     @PostMapping("/patient")
@@ -47,15 +40,13 @@ public class PatientController {
     }
 
     @PutMapping("/patient/{id}") //
-    public ResponseEntity updatePatient(@PathVariable("id") int id, @Valid Patient patient) {
+    public ResponseEntity updatePatient(@PathVariable("id") int id, Patient patient) {
         if (patientService.getPatient(id).isPresent()) {
             patientService.savePatient(patient);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return new ResponseEntity(HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-
-        //TODO, Comment Spring fait le lien entre l'objet a modifier et celui passé en paramètre?
         //TODO vérifier en fin d'étape 2 que le patient donné en parametre est valide sinon faire un
         // if(name!= null){patientDeLaBDD.setName(patientEnParametre.getName)} (pour ne pas effacer les champs vide)
         // je renvoi in code NotFound alors qu'il est imposible d'activer le endpoint avec un patient notFOund {id}, corriger ça pour rester cohérent
@@ -63,7 +54,8 @@ public class PatientController {
 
     @DeleteMapping("/patient/{id}")
     public ResponseEntity deletePatient(@PathVariable("id") int id) {
-        patientService.deletePatient(id); //TODO implémenter vérification de présence du patient? Soit il est éffacé ou soit il n'est pas présent = résultat final identique
+        patientService.deletePatient(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+    //TODO Utiliser l'écriture .map( partout
 }

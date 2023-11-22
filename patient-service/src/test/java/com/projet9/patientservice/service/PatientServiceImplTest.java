@@ -1,10 +1,9 @@
-package com.projet9.patientservice;
+package com.projet9.patientservice.service;
 
 import com.projet9.patientservice.model.Address;
 import com.projet9.patientservice.model.Gender;
 import com.projet9.patientservice.model.Patient;
 import com.projet9.patientservice.repository.PatientRepository;
-import com.projet9.patientservice.service.PatientServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,16 +21,32 @@ import java.util.Optional;
 public class PatientServiceImplTest {
     @Mock
     PatientRepository patientRepository;
+    @Mock
+    GenderService genderService;
+    @Mock
+    AddressService addressService;
 
     @InjectMocks
     public PatientServiceImpl patientServiceUnderTest;
 
     @Test
-    public void getPatientTest() {
+    public void getPatientByIdTest() {
         Patient dummyPatient = getDummyPatient();
         Mockito.when(patientRepository.findById(dummyPatient.getId())).thenReturn(Optional.of(dummyPatient));
 
         Patient patient = patientServiceUnderTest.getPatient(dummyPatient.getId()).get();
+
+        Assertions.assertThat(patient).isEqualTo(dummyPatient);
+    }
+
+    @Test
+    public void getPatientByAddressTest() {
+        Patient dummyPatient = getDummyPatient();
+        Mockito.when(patientRepository.findByFirstNameAndLastName(
+                dummyPatient.getFirstName(), dummyPatient.getLastName())).thenReturn(Optional.of(dummyPatient));
+
+        Patient patient = patientServiceUnderTest.getPatient(
+                dummyPatient.getFirstName(), dummyPatient.getLastName()).get();
 
         Assertions.assertThat(patient).isEqualTo(dummyPatient);
     }
@@ -49,11 +64,46 @@ public class PatientServiceImplTest {
     @Test
     public void savePatientTest() {
         Patient dummyPatient = getDummyPatient();
+        Gender genderInDatabase = new Gender();
+        genderInDatabase.setId(1);
+        genderInDatabase.setGender("gender in database");
+
+        Mockito.when(genderService.getGender(dummyPatient.getGender().getGender())).thenReturn(genderInDatabase);
+        Mockito.when(addressService.getAddress(
+                dummyPatient.getAddress().getNumber(), dummyPatient.getAddress().getStreet()))
+                        .thenReturn(null);
 
         patientServiceUnderTest.savePatient(dummyPatient);
 
         Mockito.verify(patientRepository, Mockito.times(1)).save(dummyPatient);
+        Assertions.assertThat(dummyPatient.getGender().getId()).isEqualTo(genderInDatabase.getId());
+        Assertions.assertThat(dummyPatient.getAddress()).isNotNull();
     }
+
+    @Test
+    public void savePatientWithExistingAddressTest() {
+        Patient dummyPatient = getDummyPatient();
+        Gender genderInDatabase = new Gender();
+        genderInDatabase.setId(1);
+        genderInDatabase.setGender(dummyPatient.getGender().getGender());
+        Address addressInDatabase = new Address();
+        addressInDatabase.setId(1);
+        addressInDatabase.setStreet(dummyPatient.getAddress().getStreet());
+        addressInDatabase.setStreet(dummyPatient.getAddress().getStreet());
+
+        Mockito.when(genderService.getGender(dummyPatient.getGender().getGender())).thenReturn(genderInDatabase);
+        Mockito.when(addressService.getAddress(
+                        dummyPatient.getAddress().getNumber(), dummyPatient.getAddress().getStreet()))
+                .thenReturn(addressInDatabase);
+
+        patientServiceUnderTest.savePatient(dummyPatient);
+
+        Mockito.verify(patientRepository, Mockito.times(1)).save(dummyPatient);
+        Assertions.assertThat(dummyPatient.getId()).isEqualTo(genderInDatabase.getId());
+        Assertions.assertThat(dummyPatient.getId()).isEqualTo(genderInDatabase.getId());
+        Assertions.assertThat(dummyPatient.getAddress().getId()).isEqualTo(addressInDatabase.getId());
+    }
+
 
     @Test
     public void deletePatientTest() {
@@ -64,7 +114,7 @@ public class PatientServiceImplTest {
         Mockito.verify(patientRepository, Mockito.times(1)).deleteById(dummyPatient.getId());
     }
 
-    public Patient getDummyPatient() {
+    private Patient getDummyPatient() {
         Gender dummyGender = new Gender();
         dummyGender.setGender("gender");
 

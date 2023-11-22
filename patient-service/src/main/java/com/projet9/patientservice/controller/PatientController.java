@@ -58,6 +58,7 @@ public class PatientController {
         //TODO, Comment Spring fait le lien entre l'objet a modifier et celui passé en paramètre?
         //TODO vérifier en fin d'étape 2 que le patient donné en parametre est valide sinon faire un
         // if(name!= null){patientDeLaBDD.setName(patientEnParametre.getName)} (pour ne pas effacer les champs vide)
+        // je renvoi in code NotFound alors qu'il est imposible d'activer le endpoint avec un patient notFOund {id}, corriger ça pour rester cohérent
     }
 
     @DeleteMapping("/patient/{id}")

@@ -18,7 +18,7 @@ public class ClientController {
     }
 
     @GetMapping("/patient")
-    public String home(Model model) {
+    public String showPatientList(Model model) {
         model.addAttribute("patients", patientProxy.getPatients());
         return "patient-list";
     }
@@ -31,7 +31,6 @@ public class ClientController {
 
     @GetMapping("/patient/update/{id}")
     public String showUpdatePatientForm(@PathVariable("id") int id, Model model) {
-        PatientDto patientDto = patientProxy.getPatient(id);
         model.addAttribute("patient", patientProxy.getPatient(id));
         return "update-patient";
     }
@@ -50,8 +49,8 @@ public class ClientController {
 
     @PostMapping("/patient/validate")
     public String validatePatient(@Valid @ModelAttribute("patient") PatientDto patientDto,  BindingResult result, Model model) {
-        PatientDto OptionalPatient = patientProxy.getPatient(patientDto.getFirstName(),patientDto.getLastName());
-        if (OptionalPatient != null) {
+        PatientDto patientAlreadyPresentInDTB = patientProxy.getPatient(patientDto.getFirstName(),patientDto.getLastName());
+        if (patientAlreadyPresentInDTB != null) {
             result.rejectValue("firstName",null,
                     patientDto.getFirstName() + " " + patientDto .getLastName() + " is already registered");
         }

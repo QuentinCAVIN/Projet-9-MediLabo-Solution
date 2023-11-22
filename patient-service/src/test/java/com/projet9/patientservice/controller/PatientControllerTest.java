@@ -100,12 +100,12 @@ public class PatientControllerTest {
 
     @Test
     public void getPatientsTest() throws Exception {
-        List<Patient> dummyPatients = Arrays.asList(getDummyPatient(), getDummyPatient());
+        List<Patient> dummiesPatients = Arrays.asList(getDummyPatient(), getDummyPatient());
         Mockito.when(patientService.getPatients())
-                .thenReturn(dummyPatients);
+                .thenReturn(dummiesPatients);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/list"))
-                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(dummyPatients)))
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(dummiesPatients)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PatientService {
-    public Optional<Patient> getPatient(int id);
+    public Patient getPatient(int id);
 
     public Optional<Patient> getPatient(String firstName, String lastName);
 

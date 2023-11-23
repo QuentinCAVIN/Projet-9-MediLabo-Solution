@@ -21,35 +21,33 @@ public class PatientController {
 
     @GetMapping("/patient/{id}")
     public ResponseEntity getPatient(@PathVariable("id") int id) {
-            return patientService.getPatient(id).map(ResponseEntity::ok).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
+        return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(id));
+        //La présence du patient est vérifiée dans clientui
     }
 
     @GetMapping("/patient")
     public ResponseEntity getPatient(@RequestParam String firstName, @RequestParam String lastName) {
         return patientService.getPatient(firstName, lastName).map(ResponseEntity::ok).orElse(new ResponseEntity(HttpStatus.NO_CONTENT));
     }
+
     @GetMapping("/patient/list")
     public ResponseEntity getPatients() {
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatients());
+        // TODO comprendre pourquoi on ne peut pas utilser le .map(ResponseEntity::ok) ici. c'est une methode réservé au Optional?
     }
 
     @PostMapping("/patient")
     public ResponseEntity createPatient(@RequestBody Patient patient) {
         patientService.savePatient(patient);
-        return ResponseEntity.status((HttpStatus.CREATED)).build();
+        return new ResponseEntity(HttpStatus.CREATED);
+        //La validité du patient est vérifiée dans clientui
     }
 
-    @PutMapping("/patient/{id}") //
+    @PutMapping("/patient/{id}")
     public ResponseEntity updatePatient(@PathVariable("id") int id, Patient patient) {
-        if (patientService.getPatient(id).isPresent()) {
-            patientService.savePatient(patient);
-            return new ResponseEntity(HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        //TODO vérifier en fin d'étape 2 que le patient donné en parametre est valide sinon faire un
-        // if(name!= null){patientDeLaBDD.setName(patientEnParametre.getName)} (pour ne pas effacer les champs vide)
-        // je renvoi in code NotFound alors qu'il est imposible d'activer le endpoint avec un patient notFOund {id}, corriger ça pour rester cohérent
+        patientService.savePatient(patient);
+        return new ResponseEntity(HttpStatus.OK);
+        //La présence du patient est vérifiée dans clientui
     }
 
     @DeleteMapping("/patient/{id}")
@@ -57,5 +55,4 @@ public class PatientController {
         patientService.deletePatient(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-    //TODO Utiliser l'écriture .map( partout
 }

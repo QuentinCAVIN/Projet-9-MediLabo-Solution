@@ -37,10 +37,12 @@
             <div class="form-group">
                 <label for="dateOfBirth" class="col-sm-2 control-label">Date of birth</label>
                 <div class="col-sm-10">
-                    <input type="date" th:field="*{dateOfBirth}"  id="dateOfBirth" placeholder="yyyy-MM-dd" class="col-4">
+                    <input type="date" th:field="*{dateOfBirth}"  id="dateOfBirth"  class="col-4">
                     <p class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></p>
                 </div>
             </div>
+
+            <!--TODO: gérer le problème d'affichage de la date dans ce formulaire: https://www.baeldung.com/dates-in-thymeleaf-->
 
             <div class="form-group">
                 <label for="streetNumber" class="col-sm-2 control-label">Street number</label>

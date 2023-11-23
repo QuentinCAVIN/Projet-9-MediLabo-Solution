@@ -6,7 +6,9 @@ import com.projet9.patientservice.model.Gender;
 import com.projet9.patientservice.model.Patient;
 import com.projet9.patientservice.service.PatientService;
 import com.projet9.patientservice.service.PatientServiceImpl;
+import org.glassfish.jaxb.core.v2.TODO;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -39,7 +41,7 @@ import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = PatientController.class)
 public class PatientControllerTest {
 
@@ -54,7 +56,7 @@ public class PatientControllerTest {
     @Test
     public void getPatientByIdTest() throws Exception {
         Patient dummyPatient = getDummyPatient();
-        Mockito.when(patientService.getPatient(dummyPatient.getId())).thenReturn(Optional.of(dummyPatient));
+        Mockito.when(patientService.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/{id}",
                         Integer.toString(dummyPatient.getId())))
@@ -62,6 +64,8 @@ public class PatientControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    //Test désactivé: La présence du patient est vérifiée dans clientui
+    /*@Disabled
     @Test
     public void getPatientByIdNotFoundTest() throws Exception {
         Mockito.when(patientService.getPatient(1)).thenReturn(Optional.empty());
@@ -71,6 +75,8 @@ public class PatientControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(""))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+    */
+
 
     @Test
     public void getPatientByFirstNameAndLastNameTest() throws Exception {
@@ -94,8 +100,8 @@ public class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/patient")
                         .param("firstName", dummyPatient.getFirstName())
                         .param("lastName", dummyPatient.getLastName()))
-                .andExpect(MockMvcResultMatchers.content().string("null"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.content().string(""))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
     @Test
@@ -124,7 +130,7 @@ public class PatientControllerTest {
     @Test
     public void updatePatientTest() throws Exception {
         Patient dummyPatient = getDummyPatient();
-        Mockito.when(patientService.getPatient(dummyPatient.getId())).thenReturn(Optional.of(dummyPatient));
+        Mockito.when(patientService.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/patient/{id}", dummyPatient.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -135,6 +141,8 @@ public class PatientControllerTest {
 
     }
 
+    //Test désactivé: La présence du patient est vérifiée dans clientui
+    /*
     @Test
     public void updatePatientNotFoundTest() throws Exception {
         Patient dummyPatient = getDummyPatient();
@@ -145,7 +153,7 @@ public class PatientControllerTest {
                         .content(objectMapper.writeValueAsString(dummyPatient)))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
-
+*/
     @Test
     public void deletePatient() throws Exception {
         Patient dummyPatient = getDummyPatient();
@@ -153,7 +161,7 @@ public class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/patient/{id}", dummyPatient.getId()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
 
-        Mockito.verify(patientService , Mockito.times(1)).deletePatient(dummyPatient.getId());
+        Mockito.verify(patientService, Mockito.times(1)).deletePatient(dummyPatient.getId());
     }
 
     private Patient getDummyPatient() {

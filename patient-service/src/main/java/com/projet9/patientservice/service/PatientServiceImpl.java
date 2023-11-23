@@ -25,9 +25,10 @@ public class PatientServiceImpl implements PatientService {
         this.addressService = addressService;
     }
 
-    public Optional<Patient> getPatient(int id) {
-        return patientRepository.findById(id);
+    public Patient getPatient(int id) {
+        return patientRepository.findById(id).get();
     }
+    //La présence du patient est vérifiée dans clientui
 
     public Optional<Patient> getPatient(String firstName, String lastName) {
         return patientRepository.findByFirstNameAndLastName(firstName,lastName);

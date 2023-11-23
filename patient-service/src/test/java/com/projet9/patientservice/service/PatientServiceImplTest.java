@@ -34,7 +34,7 @@ public class PatientServiceImplTest {
         Patient dummyPatient = getDummyPatient();
         Mockito.when(patientRepository.findById(dummyPatient.getId())).thenReturn(Optional.of(dummyPatient));
 
-        Patient patient = patientServiceUnderTest.getPatient(dummyPatient.getId()).get();
+        Patient patient = patientServiceUnderTest.getPatient(dummyPatient.getId());
 
         Assertions.assertThat(patient).isEqualTo(dummyPatient);
     }

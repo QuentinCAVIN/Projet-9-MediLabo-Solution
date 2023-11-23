@@ -35,7 +35,8 @@ public class ClientController {
         return "update-patient";
     }
     @PostMapping("/patient/update")
-    public String validateUpdatePatient(@Valid @ModelAttribute ("patient") PatientDto patientDto, BindingResult result, Model model) {
+    public String validateUpdatePatient(@Valid @ModelAttribute ("patient") PatientDto patientDto,
+                                        BindingResult result, Model model) {
         if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){ //TODO Vérifier si c'est pas un peu n'importe quoi (pour eviter les champs vide dans la bdd)
             patientDto.setAddress(null);
         }

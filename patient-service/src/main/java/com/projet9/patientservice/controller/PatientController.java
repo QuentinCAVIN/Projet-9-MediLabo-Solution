@@ -26,7 +26,7 @@ public class PatientController {
 
     @GetMapping("/patient")
     public ResponseEntity getPatient(@RequestParam String firstName, @RequestParam String lastName) {
-        return patientService.getPatient(firstName, lastName).map(ResponseEntity::ok).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
+        return patientService.getPatient(firstName, lastName).map(ResponseEntity::ok).orElse(new ResponseEntity(HttpStatus.NO_CONTENT));
     }
     @GetMapping("/patient/list")
     public ResponseEntity getPatients() {

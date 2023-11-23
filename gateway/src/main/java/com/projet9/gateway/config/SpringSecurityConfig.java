@@ -1,5 +1,6 @@
 package com.projet9.gateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -20,25 +21,29 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @Configuration
 @EnableWebFluxSecurity
 public class SpringSecurityConfig {
+    @Value("${security.in.memory.username}")
+    String username;
+    @Value("${security.in.memory.password}")
+    String password;
 
     @Bean
-    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http){
+    SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http){
+        http.csrf(csrf -> csrf.disable());
         http
                 .authorizeExchange(exchanges -> {exchanges
                                 .pathMatchers("/**")
                                 .hasRole("ADMIN");
                     exchanges.anyExchange().authenticated();}
                 )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.builder()
-                .username("admin") //TODO ajouter variable d'environnement
-                .password(passwordEncoder().encode( "admin"))
+                .username(username)
+                .password(passwordEncoder().encode( password))
                 .roles("ADMIN")
                 .build();
         return new MapReactiveUserDetailsService(user);

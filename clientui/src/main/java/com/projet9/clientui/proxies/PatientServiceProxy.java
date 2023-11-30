@@ -17,6 +17,9 @@ public interface PatientServiceProxy {
     List<PatientDto> getPatients();
     @PostMapping(value = "/patient")
     void savePatient(PatientDto patientDto);
+
+    @PutMapping(value = "/patient")
+    void updatePatient(PatientDto patientDto);
     @DeleteMapping(value = "/patient/{id}")
     void deletePatient(@PathVariable("id") int id);
 }

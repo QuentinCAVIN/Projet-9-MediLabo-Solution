@@ -33,7 +33,6 @@ public class PatientController {
     @GetMapping("/patient/list")
     public ResponseEntity getPatients() {
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatients());
-        // TODO comprendre pourquoi on ne peut pas utilser le .map(ResponseEntity::ok) ici. c'est une methode réservé au Optional?
     }
 
     @PostMapping("/patient")
@@ -43,8 +42,8 @@ public class PatientController {
         //La validité du patient est vérifiée dans clientui
     }
 
-    @PutMapping("/patient/{id}")
-    public ResponseEntity updatePatient(@PathVariable("id") int id, Patient patient) {
+    @PutMapping("/patient")
+    public ResponseEntity updatePatient(@RequestBody Patient patient) {
         patientService.savePatient(patient);
         return new ResponseEntity(HttpStatus.OK);
         //La présence du patient est vérifiée dans clientui

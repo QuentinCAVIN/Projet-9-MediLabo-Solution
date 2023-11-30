@@ -14,7 +14,15 @@ public class NoteServiceImpl implements NoteService {
         this.noteRepository = noteRepository;
     }
 
-    public List<Note> getNotesByPatient(String patientId){
+    public List<Note> getNotesByPatient(int patientId){
         return noteRepository.findByPatId(patientId);
+    }
+
+    public void saveNote(Note note){
+        noteRepository.insert(note);
+    }
+
+    public void updateNote(Note note){
+        noteRepository.save(note);
     }
 }

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <h2 th:text="${patient.firstName} + ' '  +${patient.lastName}"></h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+
+            <!--                            TABLEAU TEST -->
+
+            <div class="row">
+                <table class="table table-bordered">
+
+                    <tr>
+                        <th style="width: 5%">First name</th>
+                        <td th:text="${patient.firstName}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Last name</th>
+                        <td th:text="${patient.lastName}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Date of birth</th>
+                        <td th:text="${patient.dateOfBirth}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Gender</th>
+                        <td th:text="${patient.gender}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Address</th>
+                        <td th:text="${patient.address}"></td>
+                    </tr>
+
+                    <tr>
+                        <th>Phone number</th>
+                        <td th:text="${patient.phoneNumber}"></td>
+                    </tr>
+
+
+                    <tr>
+
+                        <th>Action</th>
+                        <td style="width: 15%" class="text-center">
+                            <a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
+                            <!-- TODO a modifier-->
+                            <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a> <!-- TODO a modifier-->
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+
+
+    <div class="col">
+        <a href="/ADEFINIR" class="btn btn-primary btn-sm">Add New</a> <!--TODO: definir l'url-->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Note</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="note : ${notes}">
+                <td th:text="${note.note}"></td>
+                <td style="width: 15%" class="text-center">
+                    <a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
+                    <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController {
 
     private final PatientServiceProxy patientProxy;
+  //  private final NoteServiceProxy noteProxy;
 
-    public ClientController(PatientServiceProxy patientProxy) {
+    public ClientController(PatientServiceProxy patientProxy/*, NoteServiceProxy noteProxy*/) {
         this.patientProxy = patientProxy;
+       // this.noteProxy = noteProxy;
     }
 
     @GetMapping("/patient")
@@ -27,6 +29,14 @@ public class ClientController {
     public String showAddNewPatientForm(Model model) {
         model.addAttribute("patient", new PatientDto());
         return "add-new-patient";
+    }
+
+    @GetMapping("/patient/display")
+    public String showDisplayPatientt(Model model) {
+        model.addAttribute("patient", patientProxy.getPatient(1));
+        model.addAttribute("notes", patientProxy.getNotesByPatientId(1));
+        return "display-patient";
+        //TODO Methode en phase de test, remplacer les valeurs fixe "1" par des variables
     }
 
     @GetMapping("/patient/update/{id}")
@@ -71,4 +81,6 @@ public class ClientController {
         patientProxy.deletePatient(id);
         return "redirect:/patient";
     }
+
+
 }

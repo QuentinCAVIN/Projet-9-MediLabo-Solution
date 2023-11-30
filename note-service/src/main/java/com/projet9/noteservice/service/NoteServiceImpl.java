@@ -25,4 +25,8 @@ public class NoteServiceImpl implements NoteService {
     public void updateNote(Note note){
         noteRepository.save(note);
     }
+
+    public void deleteNoteById(String id){
+        noteRepository.deleteById(id);
+    }
 }

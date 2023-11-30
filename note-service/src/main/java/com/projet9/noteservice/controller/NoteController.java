@@ -2,7 +2,6 @@ package com.projet9.noteservice.controller;
 
 import com.projet9.noteservice.model.Note;
 import com.projet9.noteservice.service.NoteService;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ public class NoteController {
     }
 
     @GetMapping("/note/patient/{id}")
-    public ResponseEntity<List<Note>> getNotesByPatient(@PathVariable("id") int patientId) {
+    public ResponseEntity<List<Note>> getNotesByPatientId(@PathVariable("id") int patientId) {
         return ResponseEntity.status(HttpStatus.OK).body(noteService.getNotesByPatient(patientId));
     }
 
@@ -34,5 +33,11 @@ public class NoteController {
         noteService.updateNote(note);
         return new ResponseEntity(HttpStatus.OK);
         //La présence du patient est vérifiée dans clientui
+    }
+
+    @DeleteMapping("/note/{id}")
+    public ResponseEntity deleteNoteById(@PathVariable("id") String id){
+        noteService.deleteNoteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

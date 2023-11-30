@@ -8,4 +8,5 @@ public interface NoteService {
     List<Note> getNotesByPatient(int patientId);
     void saveNote(Note note);
     void updateNote(Note note);
+    void deleteNoteById(String id);
 }

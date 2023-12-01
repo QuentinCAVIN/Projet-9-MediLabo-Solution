@@ -69,7 +69,7 @@ public class ClientController {
         }
         if (!result.hasErrors()){
         patientProxy.savePatient(patientDto);
-        return "redirect:/patient";
+            return "redirect:/patient/display?patientId=" + patientDto.getId();
         }
         model.addAttribute("patient", patientDto);
         return "update-patient";
@@ -106,10 +106,16 @@ public class ClientController {
 
 
     ///////////////////////////DELETE///////////////////////////
-    @GetMapping("patient/delete/{id}")
+    @GetMapping("/patient/delete/{id}")
     public String deletePatient(@PathVariable("id") int id, Model model) {
         patientProxy.deletePatient(id);
         return "redirect:/patient";
+    }
+
+    @GetMapping ("/note/delete/{id}")
+    public String deleteNote(@PathVariable("id") String id, @RequestParam(required = false) int patientId){
+        patientProxy.deleteNote(id);
+        return "redirect:/patient/display?patientId=" + patientId;
     }
 
     //TODO Trier les différentes méthodes dans plusieurs controlleurs?

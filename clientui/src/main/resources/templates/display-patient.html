@@ -79,7 +79,7 @@
                     <td th:text="${note.note}"></td>
                     <td style="width: 20%" class="text-center">
                         <a th:href="@{/patient/display(noteId=${note.id}, patientId=${note.patId})}">Edit</a>&nbsp;|&nbsp;
-                        <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a>
+                        <a th:href="@{/note/delete/{id}(id=${note.id},patientId=${note.patId})}">Delete</a>
                     </td>
                 </tr>
                 </tbody>

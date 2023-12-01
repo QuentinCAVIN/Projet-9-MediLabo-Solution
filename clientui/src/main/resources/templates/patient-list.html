@@ -42,9 +42,7 @@
         <td th:text="${patient.address}"></td>
         <td th:text="${patient.phoneNumber}"></td>
         <td style="width: 15%" class="text-center">
-          <a th:href="@{/patient/display(patientId=${patient.id})}">Read</a>
-          <a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp; <!-- TODO a modifier-->
-          <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a> <!-- TODO a modifier-->
+          <a th:href="@{/patient/display(patientId=${patient.id})}">View</a>
         </td>
       </tr>
       </tbody>

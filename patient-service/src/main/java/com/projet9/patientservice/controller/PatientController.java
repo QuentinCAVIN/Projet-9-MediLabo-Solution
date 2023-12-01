@@ -2,14 +2,10 @@ package com.projet9.patientservice.controller;
 
 import com.projet9.patientservice.model.Patient;
 import com.projet9.patientservice.service.PatientService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class PatientController {
@@ -20,7 +16,7 @@ public class PatientController {
     }
 
     @GetMapping("/patient/{id}")
-    public ResponseEntity getPatient(@PathVariable("id") int id) {
+    public ResponseEntity<Patient> getPatient(@PathVariable("id") int id) {
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatient(id));
         //La présence du patient est vérifiée dans clientui
     }

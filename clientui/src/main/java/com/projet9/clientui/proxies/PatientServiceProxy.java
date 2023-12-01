@@ -28,4 +28,13 @@ public interface PatientServiceProxy {
 
     @GetMapping(value = "/note/patient/{id}")
     List<NoteDto> getNotesByPatientId(@PathVariable("id") int PatientId);
+
+    @GetMapping(value = "/note/{id}")
+    NoteDto getNoteById(@PathVariable("id") String id);
+
+    @PostMapping(value = "/note")
+    void createNote(NoteDto note);
+    @PutMapping(value = "/note")
+    void updateNote(NoteDto note);
+    //TODO Voir avec Vincent si il ne serait pas mieux d'utiliser une seul méthode pour update et create (voir note-service controller)
 }

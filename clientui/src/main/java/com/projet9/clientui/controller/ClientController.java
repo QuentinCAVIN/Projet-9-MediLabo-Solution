@@ -1,5 +1,6 @@
 package com.projet9.clientui.controller;
 
+import com.projet9.clientui.Dto.NoteDto;
 import com.projet9.clientui.Dto.PatientDto;
 import com.projet9.clientui.proxies.PatientServiceProxy;
 import jakarta.validation.Valid;
@@ -19,10 +20,27 @@ public class ClientController {
        // this.noteProxy = noteProxy;
     }
 
+
+
+
+    /////////////// DISPLAY HTML ////////////////
     @GetMapping("/patient")
     public String showPatientList(Model model) {
         model.addAttribute("patients", patientProxy.getPatients());
         return "patient-list";
+    }
+
+    @GetMapping("/patient/display")
+    public String showDisplayPatient(Model model, @RequestParam int patientId,
+                                     @RequestParam(required = false) String noteId) {
+        model.addAttribute("patient", patientProxy.getPatient(patientId));
+        model.addAttribute("notes", patientProxy.getNotesByPatientId(patientId));
+        if (noteId != null){
+            model.addAttribute("noteToSave",patientProxy.getNoteById(noteId));
+        } else {
+            model.addAttribute("noteToSave", new NoteDto());
+        }
+        return "display-patient";
     }
 
     @GetMapping("/patient/add")
@@ -31,23 +49,22 @@ public class ClientController {
         return "add-new-patient";
     }
 
-    @GetMapping("/patient/display")
-    public String showDisplayPatientt(Model model) {
-        model.addAttribute("patient", patientProxy.getPatient(1));
-        model.addAttribute("notes", patientProxy.getNotesByPatientId(1));
-        return "display-patient";
-        //TODO Methode en phase de test, remplacer les valeurs fixe "1" par des variables
-    }
-
     @GetMapping("/patient/update/{id}")
     public String showUpdatePatientForm(@PathVariable("id") int id, Model model) {
         model.addAttribute("patient", patientProxy.getPatient(id));
         return "update-patient";
     }
+
+
+
+
+
+    //////////////////SAVE ///////////////////////
+
     @PostMapping("/patient/update")
     public String validateUpdatePatient(@Valid @ModelAttribute ("patient") PatientDto patientDto,
                                         BindingResult result, Model model) {
-        if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){ //TODO Vérifier si c'est pas un peu n'importe quoi (pour eviter les champs vide dans la bdd)
+        if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){
             patientDto.setAddress(null);
         }
         if (!result.hasErrors()){
@@ -65,7 +82,7 @@ public class ClientController {
             result.rejectValue("firstName",null,
                     patientDto.getFirstName() + " " + patientDto .getLastName() + " is already registered");
         }
-        if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){ //TODO Vérifier si c'est pas un peu n'importe quoi
+        if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){
             patientDto.setAddress(null);
         }
         if (!result.hasErrors()){
@@ -76,11 +93,25 @@ public class ClientController {
         return "add-new-patient";
     }
 
+    @PostMapping("/note/save")
+    public String saveNote(@ModelAttribute("noteToSave") NoteDto note) {
+        if (note.getId().isEmpty()){
+            note.setId(null);
+            patientProxy.createNote(note);
+        } else {
+            patientProxy.updateNote(note);
+        }
+        return "redirect:/patient/display?patientId=" + note.getPatId();
+    }
+
+
+    ///////////////////////////DELETE///////////////////////////
     @GetMapping("patient/delete/{id}")
     public String deletePatient(@PathVariable("id") int id, Model model) {
         patientProxy.deletePatient(id);
         return "redirect:/patient";
     }
 
+    //TODO Trier les différentes méthodes dans plusieurs controlleurs?
 
 }

@@ -22,12 +22,20 @@ public class NoteController {
         return ResponseEntity.status(HttpStatus.OK).body(noteService.getNotesByPatient(patientId));
     }
 
+    @GetMapping("/note/{id}")
+    public ResponseEntity<Note> getNoteById(@PathVariable("id") String id) {
+        return ResponseEntity.status(HttpStatus.OK).body(noteService.getNoteById(id));
+    }
+    //La présence de la note est vérifiée dans clientui
+
     @PostMapping("/note")
     public ResponseEntity createNote(@RequestBody Note note) {
-        noteService.saveNote(note);
+        noteService.createNote(note);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    //TODO : VOir avec Vincent si c'est une bonne pratique d'utiliser uniquement la méthode .save du Repository MongoDB
+    // Voir Proxy dans clientui
     @PutMapping("/note")
     public ResponseEntity updateNote(@RequestBody Note note) {
         noteService.updateNote(note);

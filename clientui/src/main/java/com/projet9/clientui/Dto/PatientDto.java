@@ -26,14 +26,10 @@ public class PatientDto {
 
     @Past
     @NotNull
-    //TODO: quand un utilisateur rentre une date avec un format jj/mm/yyyyyy cela génére dans le html une erreur
-    // qu'il faudrait personaliser. Gérer ça soit en bloquant l'utilisateur dans le html, soit en capturant l'exception
-    // soit en remplacant le champ LocalDate en String et en implementant une annotation custom
     private LocalDate dateOfBirth;
 
     @Valid
     private GenderDto gender;
-
 
     private AddressDto address;
 

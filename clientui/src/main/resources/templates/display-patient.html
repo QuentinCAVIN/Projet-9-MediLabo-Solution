@@ -9,88 +9,104 @@
 <body>
 <div class="container">
 
+
+    <h2 th:text="${patient.firstName} + ' '  +${patient.lastName}"></h2>
+
+
     <div class="row">
-        <h2 th:text="${patient.firstName} + ' '  +${patient.lastName}"></h2>
-    </div>
-
-    <div class="row">
-        <div class="col">
+        <div class="col-3">
 
 
-            <!--                            TABLEAU TEST -->
+            <table class="table table-bordered">
 
-            <div class="row">
-                <table class="table table-bordered">
+                <tr>
+                    <th style="width: 5%">First name</th>
+                    <td th:text="${patient.firstName}"></td>
+                </tr>
 
-                    <tr>
-                        <th style="width: 5%">First name</th>
-                        <td th:text="${patient.firstName}"></td>
-                    </tr>
+                <tr>
+                    <th>Last name</th>
+                    <td th:text="${patient.lastName}"></td>
+                </tr>
 
-                    <tr>
-                        <th>Last name</th>
-                        <td th:text="${patient.lastName}"></td>
-                    </tr>
+                <tr>
+                    <th>Date of birth</th>
+                    <td th:text="${patient.dateOfBirth}"></td>
+                </tr>
 
-                    <tr>
-                        <th>Date of birth</th>
-                        <td th:text="${patient.dateOfBirth}"></td>
-                    </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td th:text="${patient.gender}"></td>
+                </tr>
 
-                    <tr>
-                        <th>Gender</th>
-                        <td th:text="${patient.gender}"></td>
-                    </tr>
+                <tr>
+                    <th>Address</th>
+                    <td th:text="${patient.address}"></td>
+                </tr>
 
-                    <tr>
-                        <th>Address</th>
-                        <td th:text="${patient.address}"></td>
-                    </tr>
-
-                    <tr>
-                        <th>Phone number</th>
-                        <td th:text="${patient.phoneNumber}"></td>
-                    </tr>
+                <tr>
+                    <th>Phone number</th>
+                    <td th:text="${patient.phoneNumber}"></td>
+                </tr>
 
 
-                    <tr>
+                <tr>
 
-                        <th>Action</th>
-                        <td style="width: 15%" class="text-center">
-                            <a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
-                            <!-- TODO a modifier-->
-                            <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a> <!-- TODO a modifier-->
-                        </td>
-                    </tr>
+                    <th>Action</th>
+                    <td style="width: 15%" class="text-center">
+                        <a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
+                        <!-- TODO a modifier-->
+                        <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a> <!-- TODO a modifier-->
+                    </td>
+                </tr>
 
-                </table>
-            </div>
+            </table>
+
         </div>
 
+        <div class="col-1"></div>
 
-
-    <div class="col">
-        <a href="/ADEFINIR" class="btn btn-primary btn-sm">Add New</a> <!--TODO: definir l'url-->
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Note</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="note : ${notes}">
-                <td th:text="${note.note}"></td>
-                <td style="width: 15%" class="text-center">
-                    <a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
-                    <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="col-8">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Note</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${notes}">
+                    <td th:text="${note.note}"></td>
+                    <td style="width: 20%" class="text-center">
+                        <a th:href="@{/patient/display(noteId=${note.id}, patientId=${note.patId})}">Edit</a>&nbsp;|&nbsp;
+                        <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+    <form action="#" th:action="@{/note/save}" th:object="${noteToSave}" method="post"
+          class="form-horizontal" style="width: 100%">
 
+        <div class="form-group">
+            <label for="note" th:if="${noteToSave.id == null}" class="form-label">New note</label>
+            <label for="note" th:if="${noteToSave.id != null}" class="form-label">Update note</label>
+            <textarea class="form-control" th:field="*{note}" id="note" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="hidden" th:value="${patient.lastName}" name="patient" />
+                <input type="hidden" th:value="${patient.id}" name="patId">
+                <input type="hidden" th:field="*{id}">
+                <a class="btn btn-danger btn-sm" th:if="${noteToSave.id != null}"
+                   th:href=@{/patient/display(patientId=${patient.id})}>Cancel</a>
+                <input class="btn btn-primary btn-sm" type="submit" th:if="${noteToSave.id != null}" value="Update">
+                <input class="btn btn-primary btn-sm" type="submit" th:if="${noteToSave.id == null}" value="Add New">
+            </div>
+        </div>
+    </form>
 </div>
 
 </body>

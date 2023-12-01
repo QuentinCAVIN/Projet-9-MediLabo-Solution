@@ -18,7 +18,12 @@ public class NoteServiceImpl implements NoteService {
         return noteRepository.findByPatId(patientId);
     }
 
-    public void saveNote(Note note){
+    public Note getNoteById (String id) {
+        return noteRepository.findById(id).get();
+    }
+    //La présence de la note est vérifiée dans clientui
+
+    public void createNote(Note note){
         noteRepository.insert(note);
     }
 

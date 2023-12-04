@@ -3,11 +3,20 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>Home</title>
+    <title>Medilabo Solutions</title>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
+
+        <div class="row">
+            <div class="col-6">
+
+            </div>
+            <div class="col-6 text-right">
+                <a href="/patient">Home</a>&nbsp;|&nbsp;<a href="/logout">Logout</a>
+            </div>
+        </div>
 
 
     <h2 th:text="${patient.firstName} + ' '  +${patient.lastName}"></h2>

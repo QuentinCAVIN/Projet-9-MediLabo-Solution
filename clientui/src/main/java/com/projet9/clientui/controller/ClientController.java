@@ -76,7 +76,7 @@ public class ClientController {
     }
 
     @PostMapping("/patient/validate")
-    public String validatePatient(@Valid @ModelAttribute("patient") PatientDto patientDto,  BindingResult result, Model model) {
+    public String validateNewPatient(@Valid @ModelAttribute("patient") PatientDto patientDto,  BindingResult result, Model model) {
         PatientDto patientAlreadyPresentInDTB = patientProxy.getPatient(patientDto.getFirstName(),patientDto.getLastName());
         if (patientAlreadyPresentInDTB != null) {
             result.rejectValue("firstName",null,
@@ -114,7 +114,7 @@ public class ClientController {
     }
 
     @GetMapping ("/note/delete/{id}")
-    public String deleteNote(@PathVariable("id") String id, @RequestParam(required = false) int patientId){
+    public String deleteNote(@PathVariable("id") String id, @RequestParam int patientId){
         patientProxy.deleteNote(id);
         return "redirect:/patient/display?patientId=" + patientId;
     }

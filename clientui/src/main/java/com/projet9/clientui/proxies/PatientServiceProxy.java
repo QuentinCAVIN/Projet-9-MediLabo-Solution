@@ -37,4 +37,7 @@ public interface PatientServiceProxy {
 
     @DeleteMapping(value = "/note/{id}")
     void deleteNote(@PathVariable("id") String id);
+
+    @DeleteMapping (value = "/note/patient/{id}")
+    void deleteNoteByPatientId(@PathVariable("id") int patientId);
 }

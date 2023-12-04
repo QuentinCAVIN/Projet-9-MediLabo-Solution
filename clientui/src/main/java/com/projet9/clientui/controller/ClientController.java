@@ -109,6 +109,7 @@ public class ClientController {
     @GetMapping("/patient/delete/{id}")
     public String deletePatient(@PathVariable("id") int id, Model model) {
         patientProxy.deletePatient(id);
+        patientProxy.deleteNoteByPatientId(id);
         return "redirect:/patient";
     }
 

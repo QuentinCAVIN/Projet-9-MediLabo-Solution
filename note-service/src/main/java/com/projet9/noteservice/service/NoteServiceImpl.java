@@ -34,4 +34,9 @@ public class NoteServiceImpl implements NoteService {
     public void deleteNoteById(String id){
         noteRepository.deleteById(id);
     }
+
+    public void deleteNoteByPatientId(int patientId) {
+        List<Note> allPatientsNotes = noteRepository.findByPatId(patientId);
+        noteRepository.deleteAll(allPatientsNotes);
+    }
 }

@@ -10,4 +10,5 @@ public interface NoteService {
     void createNote(Note note);
     void updateNote(Note note);
     void deleteNoteById(String id);
+    void deleteNoteByPatientId(int patientId);
 }

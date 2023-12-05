@@ -27,11 +27,11 @@ public class SpringSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable());
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/**").hasRole("ADMIN");
-            auth.anyRequest().authenticated();
+                    auth.requestMatchers("/**").hasRole("ADMIN");
+                    auth.anyRequest().authenticated();
 
-        }).formLogin(form ->
-                form.loginProcessingUrl("/login").defaultSuccessUrl("/patient",true))
+                }).formLogin(form ->
+                        form.loginProcessingUrl("/login").defaultSuccessUrl("/patient", true))
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }

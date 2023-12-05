@@ -13,7 +13,7 @@ public class FeignConfig {
     String password;
 
     @Bean
-    public BasicAuthRequestInterceptor basicAuthRequestInterceptor(){
+    public BasicAuthRequestInterceptor basicAuthRequestInterceptor() {
         return new BasicAuthRequestInterceptor(username, password);
     }
 }

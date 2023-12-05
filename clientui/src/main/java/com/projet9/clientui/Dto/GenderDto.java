@@ -11,15 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GenderDto {
-
     int id;
-
     @NotEmpty
     private String gender;
-
     @Override
-    public String toString()
-    {
+    public String toString() {
         return gender;
     }
 }

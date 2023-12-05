@@ -22,16 +22,11 @@ public class PatientDto {
     private String firstName;
     @NotEmpty
     private String lastName;
-
-
     @Past
     @NotNull
     private LocalDate dateOfBirth;
-
     @Valid
     private GenderDto gender;
-
     private AddressDto address;
-
     private String phoneNumber;
 }

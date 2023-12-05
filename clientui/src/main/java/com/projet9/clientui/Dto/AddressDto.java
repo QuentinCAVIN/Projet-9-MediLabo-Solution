@@ -1,6 +1,5 @@
 package com.projet9.clientui.Dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

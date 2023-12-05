@@ -44,13 +44,13 @@ public class NoteController {
     }
 
     @DeleteMapping("/note/{id}")
-    public ResponseEntity deleteNoteById(@PathVariable("id") String id){
+    public ResponseEntity deleteNoteById(@PathVariable("id") String id) {
         noteService.deleteNoteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/note/patient/{id}")
-    public ResponseEntity deleteNoteByPatient(@PathVariable("id")int patientId){
+    public ResponseEntity deleteNoteByPatient(@PathVariable("id")int patientId) {
         noteService.deleteNoteByPatientId(patientId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

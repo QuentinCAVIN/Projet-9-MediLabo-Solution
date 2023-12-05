@@ -11,10 +11,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -41,8 +38,8 @@ import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = PatientController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class PatientControllerTest {
 
     @Autowired
@@ -122,9 +119,12 @@ public class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/patient")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dummyPatient)))
+
                 .andExpect(MockMvcResultMatchers.status().isCreated());
         Mockito.verify(patientService, Mockito.times(1))
                 .savePatient(ArgumentMatchers.any(Patient.class));
+        ArgumentCaptor<Patient> captor = ArgumentCaptor.forClass(Patient.class);
+        Mockito.verify(patientService,Mockito.times(1)).savePatient(captor.capture());
     }
 
     @Test
@@ -132,13 +132,15 @@ public class PatientControllerTest {
         Patient dummyPatient = getDummyPatient();
         Mockito.when(patientService.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/patient/{id}", dummyPatient.getId())
+        mockMvc.perform(MockMvcRequestBuilders.put("/patient")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dummyPatient)))
+
                 .andExpect(MockMvcResultMatchers.status().isOk());
         Mockito.verify(patientService, Mockito.times(1))
                 .savePatient(ArgumentMatchers.any(Patient.class));
-
+        ArgumentCaptor<Patient> captor = ArgumentCaptor.forClass(Patient.class);
+        Mockito.verify(patientService,Mockito.times(1)).savePatient(captor.capture());
     }
 
     //Test désactivé: La présence du patient est vérifiée dans clientui

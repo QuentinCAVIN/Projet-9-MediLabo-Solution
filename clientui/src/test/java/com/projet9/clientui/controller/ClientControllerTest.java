@@ -199,8 +199,9 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name("update-patient"))
                 .andExpect(model().attributeHasFieldErrors("patient",
                         "firstName", "lastName", "dateOfBirth", "gender.gender"));
+        ArgumentCaptor<PatientDto> captor = ArgumentCaptor.forClass(PatientDto.class);
         Mockito.verify(patientServiceProxy, Mockito.times(0))
-                .savePatient(Mockito.any(PatientDto.class));
+                .savePatient(captor.capture());
     }
 
     @Test
@@ -243,8 +244,8 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name("add-new-patient"))
                 .andExpect(model().attributeHasFieldErrors("patient",
                         "firstName", "lastName", "dateOfBirth", "gender.gender"));
-        Mockito.verify(patientServiceProxy, Mockito.times(0))
-                .savePatient(Mockito.any(PatientDto.class));
+        ArgumentCaptor<PatientDto> captor = ArgumentCaptor.forClass(PatientDto.class);
+        Mockito.verify(patientServiceProxy, Mockito.times(0)).savePatient(captor.capture());
     }
 
     @Test
@@ -268,8 +269,8 @@ public class ClientControllerTest {
                         dummyPatient.getFirstName() + " " +
                                 dummyPatient.getLastName() + " is already registered")))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("patient"));
-        Mockito.verify(patientServiceProxy, Mockito.times(0))
-                .savePatient(Mockito.any(PatientDto.class));
+        ArgumentCaptor<PatientDto> captor = ArgumentCaptor.forClass(PatientDto.class);
+        Mockito.verify(patientServiceProxy, Mockito.times(0)).savePatient(captor.capture());
     }
 
 
@@ -286,10 +287,11 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
                         "/patient/display?patientId=" + dummyNote .getPatId()));
+        ArgumentCaptor<NoteDto> captor = ArgumentCaptor.forClass(NoteDto.class);
         Mockito.verify(patientServiceProxy, Mockito.times(1))
-                .createNote(Mockito.any(NoteDto.class));
+                .createNote(captor.capture());
         Mockito.verify(patientServiceProxy, Mockito.times(0))
-                .updateNote(Mockito.any(NoteDto.class));
+                .updateNote(captor.capture());
     }
 
     @Test
@@ -305,10 +307,11 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
                         "/patient/display?patientId=" + dummyNote .getPatId()));
+        ArgumentCaptor<NoteDto> captor = ArgumentCaptor.forClass(NoteDto.class);
         Mockito.verify(patientServiceProxy, Mockito.times(0))
-                .createNote(Mockito.any(NoteDto.class));
+                .createNote(captor.capture());
         Mockito.verify(patientServiceProxy, Mockito.times(1))
-                .updateNote(Mockito.any(NoteDto.class));
+                .updateNote(captor.capture());
     }
 
 

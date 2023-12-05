@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>Home</title>
+    <title>Medilabo Solutions</title>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
@@ -80,7 +80,7 @@
                 <div class="col-sm-10">
                     <input type="tel" th:field="*{phoneNumber}" id="phoneNumber" placeholder="Phone number"
                            class="col-4">
-                    <p class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+                    <p class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}"  th:errors="*{phoneNumber}"></p>
                 </div>
             </div>
 
@@ -88,7 +88,7 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <input type="hidden" th:field="*{id}">
-                    <a class="btn btn-danger btn-sm" href="/patient">Cancel</a>
+                    <a class="btn btn-danger btn-sm" th:href=@{/patient/display(patientId=${patient.id})}>Cancel</a>
                     <input class="btn btn-primary btn-sm" type="submit" value="Update patient">
                 </div>
             </div>

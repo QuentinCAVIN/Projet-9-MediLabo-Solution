@@ -12,7 +12,7 @@
 	<artifactId>clientui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>clientui</name>
-	<description>Projet 9 OCR interface utilisateur Medilabo Solution</description>
+	<description>Projet 9 OCR interface utilisateur Medilabo Solutions</description>
 	<properties>
 		<java.version>21</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
@@ -44,6 +44,15 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

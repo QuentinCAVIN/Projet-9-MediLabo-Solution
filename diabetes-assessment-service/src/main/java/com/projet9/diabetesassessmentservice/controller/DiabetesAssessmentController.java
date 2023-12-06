@@ -1,8 +1,6 @@
 package com.projet9.diabetesassessmentservice.controller;
 
-import com.projet9.diabetesassessmentservice.proxies.Proxy;
-import com.projet9.diabetesassessmentservice.service.AssessmentServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.projet9.diabetesassessmentservice.service.AssessmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,17 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class DiabetesAssessmentController {
 
-    private final Proxy proxy;
+    AssessmentService assessmentService;
 
-    @Autowired
-    AssessmentServiceImpl assessmentService;
-
-    DiabetesAssessmentController(Proxy proxy) {
-        this.proxy = proxy;
+    public DiabetesAssessmentController(AssessmentService assessmentService)
+    {
+        this.assessmentService = assessmentService;
     }
 
     @GetMapping("/test/{id}")
-    public ResponseEntity test(@PathVariable int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(assessmentService.count(id));
+    public ResponseEntity test(@PathVariable("id") int patientId) {
+        return ResponseEntity.status(HttpStatus.OK).body(assessmentService.patientDiabetesAssessment(patientId));
     }
 }

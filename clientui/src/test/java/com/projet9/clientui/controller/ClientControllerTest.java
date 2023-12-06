@@ -5,7 +5,7 @@ import com.projet9.clientui.Dto.AddressDto;
 import com.projet9.clientui.Dto.GenderDto;
 import com.projet9.clientui.Dto.NoteDto;
 import com.projet9.clientui.Dto.PatientDto;
-import com.projet9.clientui.proxies.PatientServiceProxy;
+import com.projet9.clientui.proxies.Proxy;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
@@ -34,7 +34,7 @@ public class ClientControllerTest {
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    PatientServiceProxy patientServiceProxy;
+    Proxy proxy;
     @Autowired
     ObjectMapper objectMapper;
 
@@ -44,7 +44,7 @@ public class ClientControllerTest {
     @Test
     public void showPatientListTest() throws Exception {
         List<PatientDto> dummiesPatients = Arrays.asList(getDummyPatient(), getDummyPatient());
-        Mockito.when(patientServiceProxy.getPatients()).thenReturn(dummiesPatients);
+        Mockito.when(proxy.getPatients()).thenReturn(dummiesPatients);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/patient"))
 
@@ -57,7 +57,7 @@ public class ClientControllerTest {
 
         /* example: https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
          */
-        Mockito.verify(patientServiceProxy, Mockito.times(1)).getPatients();
+        Mockito.verify(proxy, Mockito.times(1)).getPatients();
 
     }
 
@@ -65,8 +65,8 @@ public class ClientControllerTest {
     public void showDisplayPatientTest() throws Exception {
         PatientDto dummyPatient = getDummyPatient();
         NoteDto dummyNote = getDummyNote();
-        Mockito.when(patientServiceProxy.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
-        Mockito.when(patientServiceProxy.getNotesByPatientId(dummyPatient.getId())).thenReturn(List.of(dummyNote));
+        Mockito.when(proxy.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
+        Mockito.when(proxy.getNotesByPatientId(dummyPatient.getId())).thenReturn(List.of(dummyNote));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/display")
                         .param("patientId", String.valueOf(dummyPatient.getId())))
@@ -80,17 +80,17 @@ public class ClientControllerTest {
 
         /* example: https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
          */
-        Mockito.verify(patientServiceProxy, Mockito.times(1)).getPatient(dummyPatient.getId());
-        Mockito.verify(patientServiceProxy, Mockito.times(1)).getNotesByPatientId(dummyPatient.getId());
+        Mockito.verify(proxy, Mockito.times(1)).getPatient(dummyPatient.getId());
+        Mockito.verify(proxy, Mockito.times(1)).getNotesByPatientId(dummyPatient.getId());
     }
 
     @Test
     public void showDisplayPatientWithEditNoteTest() throws Exception {
         PatientDto dummyPatient = getDummyPatient();
         NoteDto dummyNote = getDummyNote();
-        Mockito.when(patientServiceProxy.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
-        Mockito.when(patientServiceProxy.getNotesByPatientId(dummyPatient.getId())).thenReturn(List.of(dummyNote));
-        Mockito.when(patientServiceProxy.getNoteById(dummyNote.getId())).thenReturn(dummyNote);
+        Mockito.when(proxy.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
+        Mockito.when(proxy.getNotesByPatientId(dummyPatient.getId())).thenReturn(List.of(dummyNote));
+        Mockito.when(proxy.getNoteById(dummyNote.getId())).thenReturn(dummyNote);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/display")
                         .param("patientId", String.valueOf(dummyPatient.getId()))
@@ -105,9 +105,9 @@ public class ClientControllerTest {
 
         /* example: https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
          */
-        Mockito.verify(patientServiceProxy, Mockito.times(1)).getPatient(dummyPatient.getId());
-        Mockito.verify(patientServiceProxy, Mockito.times(1)).getNotesByPatientId(dummyPatient.getId());
-        Mockito.verify(patientServiceProxy, Mockito.times(1)).getNoteById(dummyNote.getId());
+        Mockito.verify(proxy, Mockito.times(1)).getPatient(dummyPatient.getId());
+        Mockito.verify(proxy, Mockito.times(1)).getNotesByPatientId(dummyPatient.getId());
+        Mockito.verify(proxy, Mockito.times(1)).getNoteById(dummyNote.getId());
     }
 
     @Test
@@ -122,14 +122,14 @@ public class ClientControllerTest {
     @Test
     public void showUpdatePatientFormTest() throws Exception {
         PatientDto dummyPatient = getDummyPatient();
-        Mockito.when(patientServiceProxy.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
+        Mockito.when(proxy.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/update/{id}", dummyPatient.getId()))
 
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("update-patient"))
                 .andExpect(MockMvcResultMatchers.model().attribute("patient", dummyPatient));
-        Mockito.verify(patientServiceProxy, Mockito.times(1)).getPatient(dummyPatient.getId());
+        Mockito.verify(proxy, Mockito.times(1)).getPatient(dummyPatient.getId());
     }
 
 
@@ -152,7 +152,7 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
                         "/patient/display?patientId=" + dummyPatient.getId()));
-        Mockito.verify(patientServiceProxy, Mockito.times(1))
+        Mockito.verify(proxy, Mockito.times(1))
                 .savePatient(Mockito.any(PatientDto.class));
     }
 
@@ -175,10 +175,10 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
                         "/patient/display?patientId=" + dummyPatient.getId()));
-        Mockito.verify(patientServiceProxy, Mockito.times(1))
+        Mockito.verify(proxy, Mockito.times(1))
                 .savePatient(Mockito.any(PatientDto.class));
         ArgumentCaptor<PatientDto> captor = ArgumentCaptor.forClass(PatientDto.class);
-        Mockito.verify(patientServiceProxy).savePatient(captor.capture());
+        Mockito.verify(proxy).savePatient(captor.capture());
         PatientDto savedPatient = captor.getValue();
         Assertions.assertThat(savedPatient.getAddress()).isNull();
     }
@@ -200,14 +200,14 @@ public class ClientControllerTest {
                 .andExpect(model().attributeHasFieldErrors("patient",
                         "firstName", "lastName", "dateOfBirth", "gender.gender"));
         ArgumentCaptor<PatientDto> captor = ArgumentCaptor.forClass(PatientDto.class);
-        Mockito.verify(patientServiceProxy, Mockito.times(0))
+        Mockito.verify(proxy, Mockito.times(0))
                 .savePatient(captor.capture());
     }
 
     @Test
     public void validateNewPatientTest() throws Exception {
         PatientDto dummyPatient = getDummyPatient();
-        Mockito.when(patientServiceProxy.getPatient(dummyPatient.getFirstName(), dummyPatient.getLastName()))
+        Mockito.when(proxy.getPatient(dummyPatient.getFirstName(), dummyPatient.getLastName()))
                 .thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/patient/validate")
@@ -221,14 +221,14 @@ public class ClientControllerTest {
 
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/patient"));
-        Mockito.verify(patientServiceProxy, Mockito.times(1))
+        Mockito.verify(proxy, Mockito.times(1))
                 .savePatient(Mockito.any(PatientDto.class));
     }
 
     @Test
     public void validatePatientWithInvalidPatientTest() throws Exception {
         PatientDto dummyPatient = getDummyPatient();
-        Mockito.when(patientServiceProxy.getPatient(dummyPatient.getFirstName(), dummyPatient.getLastName()))
+        Mockito.when(proxy.getPatient(dummyPatient.getFirstName(), dummyPatient.getLastName()))
                 .thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/patient/validate")
@@ -245,13 +245,13 @@ public class ClientControllerTest {
                 .andExpect(model().attributeHasFieldErrors("patient",
                         "firstName", "lastName", "dateOfBirth", "gender.gender"));
         ArgumentCaptor<PatientDto> captor = ArgumentCaptor.forClass(PatientDto.class);
-        Mockito.verify(patientServiceProxy, Mockito.times(0)).savePatient(captor.capture());
+        Mockito.verify(proxy, Mockito.times(0)).savePatient(captor.capture());
     }
 
     @Test
     public void validatePatientWithAnExistingPatientTest() throws Exception {
         PatientDto dummyPatient = getDummyPatient();
-        Mockito.when(patientServiceProxy.getPatient(dummyPatient.getFirstName(), dummyPatient.getLastName()))
+        Mockito.when(proxy.getPatient(dummyPatient.getFirstName(), dummyPatient.getLastName()))
                 .thenReturn(dummyPatient);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/patient/validate")
@@ -270,7 +270,7 @@ public class ClientControllerTest {
                                 dummyPatient.getLastName() + " is already registered")))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("patient"));
         ArgumentCaptor<PatientDto> captor = ArgumentCaptor.forClass(PatientDto.class);
-        Mockito.verify(patientServiceProxy, Mockito.times(0)).savePatient(captor.capture());
+        Mockito.verify(proxy, Mockito.times(0)).savePatient(captor.capture());
     }
 
 
@@ -288,9 +288,9 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
                         "/patient/display?patientId=" + dummyNote .getPatId()));
         ArgumentCaptor<NoteDto> captor = ArgumentCaptor.forClass(NoteDto.class);
-        Mockito.verify(patientServiceProxy, Mockito.times(1))
+        Mockito.verify(proxy, Mockito.times(1))
                 .createNote(captor.capture());
-        Mockito.verify(patientServiceProxy, Mockito.times(0))
+        Mockito.verify(proxy, Mockito.times(0))
                 .updateNote(captor.capture());
     }
 
@@ -308,9 +308,9 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
                         "/patient/display?patientId=" + dummyNote .getPatId()));
         ArgumentCaptor<NoteDto> captor = ArgumentCaptor.forClass(NoteDto.class);
-        Mockito.verify(patientServiceProxy, Mockito.times(0))
+        Mockito.verify(proxy, Mockito.times(0))
                 .createNote(captor.capture());
-        Mockito.verify(patientServiceProxy, Mockito.times(1))
+        Mockito.verify(proxy, Mockito.times(1))
                 .updateNote(captor.capture());
     }
 
@@ -327,9 +327,9 @@ public class ClientControllerTest {
 
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/patient"));
-        Mockito.verify(patientServiceProxy, Mockito.times(1))
+        Mockito.verify(proxy, Mockito.times(1))
                 .deletePatient(dummyPatient.getId());
-        Mockito.verify(patientServiceProxy, Mockito.times(1))
+        Mockito.verify(proxy, Mockito.times(1))
                 .deleteNoteByPatientId(dummyPatient.getId());
     }
 
@@ -343,7 +343,7 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers
                         .redirectedUrl("/patient/display?patientId=" + dummyNote.getPatId()));
-        Mockito.verify(patientServiceProxy, Mockito.times(1))
+        Mockito.verify(proxy, Mockito.times(1))
                 .deleteNote(dummyNote.getId());
     }
 

@@ -2,7 +2,7 @@ package com.projet9.clientui.controller;
 
 import com.projet9.clientui.Dto.NoteDto;
 import com.projet9.clientui.Dto.PatientDto;
-import com.projet9.clientui.proxies.PatientServiceProxy;
+import com.projet9.clientui.proxies.Proxy;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ClientController {
 
-    private final PatientServiceProxy patientProxy;
+    private final Proxy patientProxy;
   //  private final NoteServiceProxy noteProxy;
 
-    public ClientController(PatientServiceProxy patientProxy/*, NoteServiceProxy noteProxy*/) {
+    public ClientController(Proxy patientProxy/*, NoteServiceProxy noteProxy*/) {
         this.patientProxy = patientProxy;
        // this.noteProxy = noteProxy;
     }
-
-
 
 
     /////////////// DISPLAY HTML ////////////////
@@ -54,9 +52,6 @@ public class ClientController {
         model.addAttribute("patient", patientProxy.getPatient(id));
         return "update-patient";
     }
-
-
-
 
 
     //////////////////SAVE ///////////////////////
@@ -118,7 +113,4 @@ public class ClientController {
         patientProxy.deleteNote(id);
         return "redirect:/patient/display?patientId=" + patientId;
     }
-
-    //TODO Trier les différentes méthodes dans plusieurs controlleurs?
-
 }

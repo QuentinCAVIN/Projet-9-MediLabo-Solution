@@ -41,9 +41,7 @@ public class TriggerCounter {
             }
         }
         return triggersInPatientNotes.stream().count();
-        //TODO Rajouter une condition pour distinguer fumeur et fumeuse + gérer les fautes d'accent
     }
-
 
     private List<String> getNotesInStringAndInLowercase(List<NoteDto> noteDto) {
         //Collecte toutes les notes dans une List<String> en minuscule

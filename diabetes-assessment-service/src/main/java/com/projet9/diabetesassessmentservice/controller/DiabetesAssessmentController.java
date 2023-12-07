@@ -17,8 +17,8 @@ public class DiabetesAssessmentController {
         this.assessmentService = assessmentService;
     }
 
-    @GetMapping("/test/{id}")
-    public ResponseEntity test(@PathVariable("id") int patientId) {
+    @GetMapping("/assessment/{id}")
+    public ResponseEntity patientDiabetesAssessment(@PathVariable("id") int patientId) {
         return ResponseEntity.status(HttpStatus.OK).body(assessmentService.patientDiabetesAssessment(patientId));
     }
 }

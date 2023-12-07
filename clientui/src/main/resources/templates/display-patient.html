@@ -9,18 +9,26 @@
 <body>
 <div class="container">
 
-        <div class="row">
-            <div class="col-6">
+    <div class="row">
+        <div class="col-6">
 
-            </div>
-            <div class="col-6 text-right">
-                <a href="/patient">Home</a>&nbsp;|&nbsp;<a href="/logout">Logout</a>
-            </div>
         </div>
+        <div class="col-6 text-right">
+            <a href="/patient">Home</a>&nbsp;|&nbsp;<a href="/logout">Logout</a>
+        </div>
+    </div>
 
 
     <h2 th:text="${patient.firstName} + ' '  +${patient.lastName}"></h2>
 
+    <p th:if="${assessment == T(com.projet9.clientui.Dto.AssessmentDto).None}">Évaluation diabète : <span
+            class="badge bg-success text-light">aucun risque</span></p>
+    <p th:if="${assessment == T(com.projet9.clientui.Dto.AssessmentDto).Borderline}">Évaluation diabète : <span
+            class="badge bg-secondary text-light">risque limité</span></p>
+    <p th:if="${assessment == T(com.projet9.clientui.Dto.AssessmentDto).InDanger}">Évaluation diabète : <span
+            class="badge bg-warning text-light">danger</span></p>
+    <p th:if="${assessment == T(com.projet9.clientui.Dto.AssessmentDto).EarlyOnset}">Évaluation diabète : <span
+            class="badge bg-danger text-light">apparition précoce</span></p>
 
     <div class="row">
         <div class="col-3">
@@ -106,7 +114,7 @@
 
         <div class="form-group">
             <div class="col-sm-12">
-                <input type="hidden" th:value="${patient.lastName}" name="patient" />
+                <input type="hidden" th:value="${patient.lastName}" name="patient"/>
                 <input type="hidden" th:value="${patient.id}" name="patId">
                 <input type="hidden" th:field="*{id}">
                 <a class="btn btn-danger btn-sm" th:if="${noteToSave.id != null}"

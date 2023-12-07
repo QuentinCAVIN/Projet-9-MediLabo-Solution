@@ -1,5 +1,6 @@
 package com.projet9.clientui.proxies;
 
+import com.projet9.clientui.Dto.AssessmentDto;
 import com.projet9.clientui.Dto.NoteDto;
 import com.projet9.clientui.Dto.PatientDto;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -38,6 +39,10 @@ public interface Proxy {
     void updateNote(NoteDto note);
     @DeleteMapping(value = "/note/{id}")
     void deleteNote(@PathVariable("id") String id);
-    @DeleteMapping (value = "/note/patient/{id}")
+    @DeleteMapping(value = "/note/patient/{id}")
     void deleteNoteByPatientId(@PathVariable("id") int patientId);
+
+    ////////////DIABETES-ASSESSMENT-SERVICE/////////////
+    @GetMapping(value = "/assessment/{id}")
+    AssessmentDto patientDiabetesAssessment(@PathVariable("id") int patientId);
 }

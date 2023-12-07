@@ -58,7 +58,7 @@ public class AssessmentServiceImpl implements AssessmentService {
                 }
             }
         }
-        return Assessment.ERROR;
+        return null;
     }
 
     private int calculateAge(LocalDate dateOfBirth) {

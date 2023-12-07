@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class TriggerCounter {
 
-    // Ajouter ici les déclencheurs en minuscule
+    // Ajouter ici les nouveaux déclencheurs en minuscule
     List<String> triggers = new ArrayList<>();
     {
         triggers.add(("Hémoglobine A1C").toLowerCase());
@@ -28,7 +28,7 @@ public class TriggerCounter {
         triggers.add(("Anticorps").toLowerCase());
     }
 
-    public long countTriggers(List<NoteDto> noteDto) {
+    public int countTriggers(List<NoteDto> noteDto) {
         //Collecte toutes les notes dans une List<String> en minuscule
         List<String> notes = getNotesInStringAndInLowercase(noteDto);
 
@@ -40,7 +40,7 @@ public class TriggerCounter {
                 triggersInPatientNotes.add(trigger);
             }
         }
-        return triggersInPatientNotes.stream().count();
+        return Long.valueOf( triggersInPatientNotes.stream().count()).intValue();
     }
 
     private List<String> getNotesInStringAndInLowercase(List<NoteDto> noteDto) {

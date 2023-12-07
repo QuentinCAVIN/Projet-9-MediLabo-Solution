@@ -12,15 +12,15 @@ import java.time.Period;
 public class AssessmentServiceImpl implements AssessmentService {
 
     private final Proxy proxy;
-    private final TriggerCounter triggerCounters;
+    private final TriggerCounter triggerCounter;
 
-    public AssessmentServiceImpl(Proxy proxy, TriggerCounter triggerCounters) {
+    public AssessmentServiceImpl(Proxy proxy, TriggerCounter triggerCounter) {
         this.proxy = proxy;
-        this.triggerCounters = triggerCounters;
+        this.triggerCounter = triggerCounter;
     }
 
     public Assessment patientDiabetesAssessment(int patientId) {
-        Long numberOfTriggers = triggerCounters.countTriggers(proxy.getNotesByPatientId(patientId));
+        int numberOfTriggers = triggerCounter.countTriggers(proxy.getNotesByPatientId(patientId));
         PatientDto patientDto = proxy.getPatient(patientId);
         String gender = patientDto.getGender().getGender();
         int age = calculateAge(patientDto.getDateOfBirth());
@@ -58,7 +58,7 @@ public class AssessmentServiceImpl implements AssessmentService {
                 }
             }
         }
-        return null;
+        throw new RuntimeException("I have no idea of what you did for throw this Exception...");
     }
 
     private int calculateAge(LocalDate dateOfBirth) {

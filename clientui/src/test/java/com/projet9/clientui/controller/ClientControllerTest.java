@@ -1,10 +1,7 @@
 package com.projet9.clientui.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.projet9.clientui.Dto.AddressDto;
-import com.projet9.clientui.Dto.GenderDto;
-import com.projet9.clientui.Dto.NoteDto;
-import com.projet9.clientui.Dto.PatientDto;
+import com.projet9.clientui.Dto.*;
 import com.projet9.clientui.proxies.Proxy;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.CoreMatchers;
@@ -67,6 +64,7 @@ public class ClientControllerTest {
         NoteDto dummyNote = getDummyNote();
         Mockito.when(proxy.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
         Mockito.when(proxy.getNotesByPatientId(dummyPatient.getId())).thenReturn(List.of(dummyNote));
+        Mockito.when(proxy.patientDiabetesAssessment(dummyPatient.getId())).thenReturn(AssessmentDto.None);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/display")
                         .param("patientId", String.valueOf(dummyPatient.getId())))
@@ -76,12 +74,14 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attribute("patient", dummyPatient))
                 .andExpect(MockMvcResultMatchers.model().attribute("notes", Matchers.hasItem(
                         Matchers.samePropertyValuesAs(dummyNote))))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("noteToSave"));
+                .andExpect(MockMvcResultMatchers.model().attributeExists("noteToSave"))
+                .andExpect(MockMvcResultMatchers.model().attribute("assessment",AssessmentDto.None));
 
         /* example: https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
          */
         Mockito.verify(proxy, Mockito.times(1)).getPatient(dummyPatient.getId());
         Mockito.verify(proxy, Mockito.times(1)).getNotesByPatientId(dummyPatient.getId());
+        Mockito.verify(proxy, Mockito.times(1)).patientDiabetesAssessment(dummyPatient.getId());
     }
 
     @Test
@@ -91,6 +91,7 @@ public class ClientControllerTest {
         Mockito.when(proxy.getPatient(dummyPatient.getId())).thenReturn(dummyPatient);
         Mockito.when(proxy.getNotesByPatientId(dummyPatient.getId())).thenReturn(List.of(dummyNote));
         Mockito.when(proxy.getNoteById(dummyNote.getId())).thenReturn(dummyNote);
+        Mockito.when(proxy.patientDiabetesAssessment(dummyPatient.getId())).thenReturn(AssessmentDto.None);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/display")
                         .param("patientId", String.valueOf(dummyPatient.getId()))
@@ -101,13 +102,15 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attribute("patient", dummyPatient))
                 .andExpect(MockMvcResultMatchers.model().attribute("notes", Matchers.hasItem(
                         Matchers.samePropertyValuesAs(dummyNote))))
-                .andExpect(MockMvcResultMatchers.model().attribute("noteToSave", dummyNote));
+                .andExpect(MockMvcResultMatchers.model().attribute("noteToSave", dummyNote))
+                .andExpect(MockMvcResultMatchers.model().attribute("assessment",AssessmentDto.None));
 
         /* example: https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
          */
         Mockito.verify(proxy, Mockito.times(1)).getPatient(dummyPatient.getId());
         Mockito.verify(proxy, Mockito.times(1)).getNotesByPatientId(dummyPatient.getId());
         Mockito.verify(proxy, Mockito.times(1)).getNoteById(dummyNote.getId());
+        Mockito.verify(proxy, Mockito.times(1)).patientDiabetesAssessment(dummyPatient.getId());
     }
 
     @Test

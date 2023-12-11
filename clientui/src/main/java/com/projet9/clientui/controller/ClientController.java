@@ -2,7 +2,7 @@ package com.projet9.clientui.controller;
 
 import com.projet9.clientui.Dto.NoteDto;
 import com.projet9.clientui.Dto.PatientDto;
-import com.projet9.clientui.proxies.PatientServiceProxy;
+import com.projet9.clientui.proxies.Proxy;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,31 +12,28 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ClientController {
 
-    private final PatientServiceProxy patientProxy;
-  //  private final NoteServiceProxy noteProxy;
+    private final Proxy proxy;
 
-    public ClientController(PatientServiceProxy patientProxy/*, NoteServiceProxy noteProxy*/) {
-        this.patientProxy = patientProxy;
-       // this.noteProxy = noteProxy;
+    public ClientController(Proxy proxy/*, NoteServiceProxy noteProxy*/) {
+        this.proxy = proxy;
     }
-
-
 
 
     /////////////// DISPLAY HTML ////////////////
     @GetMapping("/patient")
     public String showPatientList(Model model) {
-        model.addAttribute("patients", patientProxy.getPatients());
+        model.addAttribute("patients", proxy.getPatients());
         return "patient-list";
     }
 
     @GetMapping("/patient/display")
     public String showDisplayPatient(Model model, @RequestParam int patientId,
                                      @RequestParam(required = false) String noteId) {
-        model.addAttribute("patient", patientProxy.getPatient(patientId));
-        model.addAttribute("notes", patientProxy.getNotesByPatientId(patientId));
+        model.addAttribute("patient", proxy.getPatient(patientId));
+        model.addAttribute("notes", proxy.getNotesByPatientId(patientId));
+        model.addAttribute("assessment", proxy.patientDiabetesAssessment(patientId));
         if (noteId != null){
-            model.addAttribute("noteToSave",patientProxy.getNoteById(noteId));
+            model.addAttribute("noteToSave", proxy.getNoteById(noteId));
         } else {
             model.addAttribute("noteToSave", new NoteDto());
         }
@@ -51,12 +48,9 @@ public class ClientController {
 
     @GetMapping("/patient/update/{id}")
     public String showUpdatePatientForm(@PathVariable("id") int id, Model model) {
-        model.addAttribute("patient", patientProxy.getPatient(id));
+        model.addAttribute("patient", proxy.getPatient(id));
         return "update-patient";
     }
-
-
-
 
 
     //////////////////SAVE ///////////////////////
@@ -68,7 +62,7 @@ public class ClientController {
             patientDto.setAddress(null);
         }
         if (!result.hasErrors()){
-        patientProxy.savePatient(patientDto);
+        proxy.savePatient(patientDto);
             return "redirect:/patient/display?patientId=" + patientDto.getId();
         }
         model.addAttribute("patient", patientDto);
@@ -77,7 +71,7 @@ public class ClientController {
 
     @PostMapping("/patient/validate")
     public String validateNewPatient(@Valid @ModelAttribute("patient") PatientDto patientDto,  BindingResult result, Model model) {
-        PatientDto patientAlreadyPresentInDTB = patientProxy.getPatient(patientDto.getFirstName(),patientDto.getLastName());
+        PatientDto patientAlreadyPresentInDTB = proxy.getPatient(patientDto.getFirstName(),patientDto.getLastName());
         if (patientAlreadyPresentInDTB != null) {
             result.rejectValue("firstName",null,
                     patientDto.getFirstName() + " " + patientDto .getLastName() + " is already registered");
@@ -86,7 +80,7 @@ public class ClientController {
             patientDto.setAddress(null);
         }
         if (!result.hasErrors()){
-        patientProxy.savePatient(patientDto);
+        proxy.savePatient(patientDto);
         return "redirect:/patient";
         }
         model.addAttribute("patient", patientDto);
@@ -97,9 +91,9 @@ public class ClientController {
     public String saveNote(@ModelAttribute("noteToSave") NoteDto note) {
         if (note.getId().isEmpty()){
             note.setId(null);
-            patientProxy.createNote(note);
+            proxy.createNote(note);
         } else {
-            patientProxy.updateNote(note);
+            proxy.updateNote(note);
         }
         return "redirect:/patient/display?patientId=" + note.getPatId();
     }
@@ -108,17 +102,14 @@ public class ClientController {
     ///////////////////////////DELETE///////////////////////////
     @GetMapping("/patient/delete/{id}")
     public String deletePatient(@PathVariable("id") int id, Model model) {
-        patientProxy.deletePatient(id);
-        patientProxy.deleteNoteByPatientId(id);
+        proxy.deletePatient(id);
+        proxy.deleteNoteByPatientId(id);
         return "redirect:/patient";
     }
 
     @GetMapping ("/note/delete/{id}")
     public String deleteNote(@PathVariable("id") String id, @RequestParam int patientId){
-        patientProxy.deleteNote(id);
+        proxy.deleteNote(id);
         return "redirect:/patient/display?patientId=" + patientId;
     }
-
-    //TODO Trier les différentes méthodes dans plusieurs controlleurs?
-
 }

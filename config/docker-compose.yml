@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+
+  mysql-db:
+    image: mysql:latest
+    volumes:
+      - mysql-db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: patient_service
+      MYSQL_ROOT_PASSWORD: mysqlPassword
+    ports:
+      - 3307:3307
+
+
+  clientui:
+    build: ../clientui
+    image: clientui
+    ports:
+      - 8080:8080 #HOST:CONTAINER
+
+  patient-service:
+    build: ../patient-service
+    depends_on:
+      - mysql-db
+    image: patient-service
+    ports:
+      - 9001:9001
+    environment:
+      spring.datasource.username: root
+      spring.datasource.password: mysqlPassword
+
+volumes:
+  mysql-db:

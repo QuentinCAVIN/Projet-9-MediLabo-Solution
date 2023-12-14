@@ -1,24 +1,6 @@
 version: '3.8'
 services:
 
-  mysql-db:
-    image: mysql:latest
-    volumes:
-      - mysql-db:/var/lib/mysql
-    restart: always
-    environment:
-      MYSQL_DATABASE: patient_service
-      MYSQL_ROOT_PASSWORD: mysqlPassword
-    ports:
-      - 3307:3307
-
-
-  clientui:
-    build: ../clientui
-    image: clientui
-    ports:
-      - 8080:8080 #HOST:CONTAINER
-
   patient-service:
     build: ../patient-service
     depends_on:
@@ -27,8 +9,30 @@ services:
     ports:
       - 9001:9001
     environment:
+      #spring.datasource.url: "jdbc:mysql://mysql-db:3307/patient-service"
       spring.datasource.username: root
-      spring.datasource.password: mysqlPassword
+      spring.datasource.password: password
 
-volumes:
   mysql-db:
+    image: mysql:8.0
+#    volumes:
+#      - mysql-db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: patient_service
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3307:3306 #le port 3306 est déjà occupé sur ma machine par mysql -> j'utilise le 3307.
+                  #Le port utilisé par mysql par défaut dans le docker est le 3306
+
+
+
+  clientui:
+    build: ../clientui
+    image: clientui
+    ports:
+      - 8080:8080 #HOST:CONTAINER
+
+
+#volumes:
+#  mysql-db:

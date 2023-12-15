@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+
+  clientui:
+    build: ../clientui
+    image: clientui
+    ports:
+      - 8080:8080 #HOST:CONTAINER
+    environment:
+      link.to.the.gateway : "gateway:9101"
+      #va venir surcharger la propriété dans application.properties pour que le FeignClient pointe vers le docker gateway
+
+  gateway:
+    build: ../gateway
+    image: gateway
+    ports:
+      - 9101:9101
+    environment:
+      spring.cloud.gateway.routes[0].uri: http://patient-service:9001
+      spring.cloud.gateway.routes[0].predicates[0]: Path=/patient/**
+      #TODO comprendre pourquoi il est necessaire d'ajouter une nouvelle fois le predicate ici alors qu'il est déja présent dans le application.properties. Sans ça l'erreur suivante est généré
+      #Property: spring.cloud.gateway.routes[1].predicates
+      #Value: "[]"
+      #Reason: must not be empty
+      spring.cloud.gateway.routes[1].uri: http://note-service:9002
+      spring.cloud.gateway.routes[1].predicates[0]: Path=/note/**
+      spring.cloud.gateway.routes[2].uri: http://diabetes-assessment-service:9003
+      spring.cloud.gateway.routes[2].predicates[0]: Path=/assessment/**
+    #avec cette surcharge la gateway redirige vers les différents dockers plutôt que les ports locaux
+
+  patient-service:
+    build: ../patient-service
+    depends_on:
+      - mysql-db
+    image: patient-service
+    ports:
+      - 9001:9001
+    environment:
+      spring.datasource.url: "jdbc:mysql://mysql-db:3306/patient_service"
+      spring.datasource.username: root
+      spring.datasource.password: password
+  mysql-db:
+    image: mysql:8.0
+    volumes:
+     - mysql-db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: patient_service
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3307:3306 #le port 3306 est déjà occupé sur ma machine par mysql -> j'utilise le 3307.
+                  #Le port utilisé par mysql par défaut dans le docker est le 3306
+
+
+  note-service:
+    build: ../note-service
+    depends_on:
+      - mongodb
+    image: note-service
+    ports:
+      - 9002:9002
+    environment:
+      spring.data.mongodb.host: mongodb
+      spring.data.mongodb.port: 27017
+      spring.data.mongodb.database : note-service
+  mongodb:
+    image: mongo
+    volumes:
+      - mongodb:/var/lib/mysql
+    restart: always
+#    environment:
+#      MYSQL_DATABASE: patient_service
+#     MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 27018:27017 #le port 3306 est déjà occupé sur ma machine par mysql -> j'utilise le 3307.
+      #Le port utilisé par mysql par défaut dans le docker est le 3306
+
+  diabetes-assessment-service:
+    build: ../diabetes-assessment-service
+    image: diabetes-assessment-service
+    ports:
+      - 9003:9003
+    environment:
+      link.to.the.gateway: "gateway:9101"
+
+volumes:
+ mysql-db:
+ mongodb:

@@ -42,8 +42,8 @@ services:
       spring.datasource.password: password
   mysql-db:
     image: mysql:8.0
-#    volumes:
-#      - mysql-db:/var/lib/mysql
+    volumes:
+     - mysql-db:/var/lib/mysql
     restart: always
     environment:
       MYSQL_DATABASE: patient_service
@@ -66,8 +66,8 @@ services:
       spring.data.mongodb.database : note-service
   mongodb:
     image: mongo
-    #    volumes:
-    #      - mongodb:/var/lib/mysql
+    volumes:
+      - mongodb:/var/lib/mysql
     restart: always
 #    environment:
 #      MYSQL_DATABASE: patient_service
@@ -84,6 +84,6 @@ services:
     environment:
       link.to.the.gateway: "gateway:9101"
 
-
-#volumes:
-#  mysql-db:
+volumes:
+ mysql-db:
+ mongodb:

@@ -41,9 +41,10 @@ public class PatientServiceImpl implements PatientService {
     public void savePatient(Patient patient) {
 
         Gender gender = genderService.getGender(patient.getGender().getGender());
-        patient.setGender(gender);// Gender est obligatoirement définis dans l'uri et correspond aux gender en BDD pas besoin de vérif
+        patient.setGender(gender);
+        // Gender est obligatoirement définis dans l'uri et correspond aux gender en BDD pas besoin de vérification
 
-
+        //Pour éviter de créer plusieurs fois la même adresse en BDD
         if (patient.getAddress() != null) {
             Address existingAddress = addressService.getAddress(
                     patient.getAddress().getNumber(), patient.getAddress().getStreet());
@@ -51,6 +52,7 @@ public class PatientServiceImpl implements PatientService {
                 patient.setAddress(existingAddress);
             }
         }
+
         patientRepository.save(patient);
     }
 

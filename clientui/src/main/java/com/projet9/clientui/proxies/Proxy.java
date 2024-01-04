@@ -23,7 +23,6 @@ public interface Proxy {
     void savePatient(PatientDto patientDto);
     @PutMapping(value = "/patient")
     void updatePatient(PatientDto patientDto);
-    //TODO Ne sert pas pour l'instant, Meme reflexion que pour updateNote plus bas
     @DeleteMapping(value = "/patient/{id}")
     void deletePatient(@PathVariable("id") int id);
 

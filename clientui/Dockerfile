@@ -1,16 +1,18 @@
 FROM openjdk:21
+
 WORKDIR /clientui
+
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-RUN ./mvnw dependency:resolve
-
 COPY src ./src
 
 ENV security.in.memory.username=username \
     security.in.memory.password=password
 
 EXPOSE 8080
-#HOST:CONTAINER
+#inutile avec l'utilisation du docker-compose. Ligne laissé à des fins de documentation
+
+RUN ./mvnw dependency:resolve
 
 CMD ["./mvnw", "spring-boot:run"]
 

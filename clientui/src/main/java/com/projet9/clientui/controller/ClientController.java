@@ -62,7 +62,7 @@ public class ClientController {
             patientDto.setAddress(null);
         }
         if (!result.hasErrors()){
-        proxy.savePatient(patientDto);
+        proxy.updatePatient(patientDto);
             return "redirect:/patient/display?patientId=" + patientDto.getId();
         }
         model.addAttribute("patient", patientDto);

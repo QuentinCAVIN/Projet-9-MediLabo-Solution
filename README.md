@@ -1,9 +1,7 @@
 # MediLabo-Solution
 
-Outil déstiné aux médecin, pour aider à détecter les patients à risque sur le diabète de type 2.
-
-Application basée sur une architecture microservices.
-
+Outil déstiné aux médecin, pour aider à détecter les patients à risque sur le diabète de type 2.  
+Application basée sur une architecture microservices.  
 Pour exécuter l'application avec docker, suivez les étapes ci-dessous.
 
 ## Prérequis
@@ -14,8 +12,7 @@ Avant de commencer, assurez-vous d'avoir installé Docker et Docker Compose sur 
 
 ## Clonage du Projet
 
-Utilisez la commande suivante pour cloner le projet sur votre machine :
-
+Utilisez la commande suivante pour cloner le projet sur votre machine :  
 git clone https://github.com/QuentinCAVIN/Projet-9-MediLabo-Solution.git
 
 ## Configuration des Ports
@@ -36,19 +33,30 @@ Assurez-vous que les ports nécessaires sur votre machine sont disponibles. Les 
 27018: mongodb -> persiste les données utiles à note-service
 
 ## Démarrage de l'Application
-Accédez au répertoire du projet et placez vous dans le répertoire config:
+Accédez au répertoire du projet et placez vous dans le répertoire config:  
+`cd Projet-9-MediLabo-Solution/config`
 
-cd Projet-9-MediLabo-Solution/config
-
-Utilisez la commande suivante pour démarrer l'application en mode détaché:
-
-docker-compose up -d
+Utilisez la commande suivante pour démarrer l'application en mode détaché:  
+`docker-compose up -d`
 
 ## Connexion à l'application
-Après le démarrage des dockers, vous pouvez accéder à l'application via l'interface utilisateur à l'adresse http://localhost:8080.
-
+Après le démarrage des dockers, vous pouvez accéder à l'application via l'interface utilisateur à l'adresse http://localhost:8080.  
 Utilisez les informations de connexion par défaut pour vous connecter :
 
-Nom d'utilisateur: username
+Nom d'utilisateur: `username`
 
-Mot de passe: password
+Mot de passe: `password`
+
+
+## Recommandations d'amélioration Green du projet
+
+### Optimisation des Dépendances
+Évaluer l'utilité des dépendances, qui peuvent parfois générer du code inutilisé (ex : lombock). Supprimer ou réduire l'utilisation de ces dépendances peu alléger l'empreinte du projet.
+<br>
+Privilégier l'utilisation du **driver Java de MongoDB** pour les interactions avec la base de données plutôt que le framework Spring Data MongoDB, plus technique à utiliser, mais favorise la performance en optimisant le temps de traitement des requêtes, contribuant ainsi à une utilisation plus efficace des ressources.
+### Utilisation Efficace de Docker
+Intégrer le fichier .dockerignore pour exclure les dossiers inutiles à la construction de l'image (ex : dossier target), réduisant ainsi la taille des images générées.
+Lors de la reconstruction des images Docker à l'aide de `docker-compose up`, veiller à supprimer uniquement les images nécessaires pour éviter de re-télécharger une image plusieurs fois et contribuer à réduire la demande en bande passante (particulièrement concernant les images des bases de données).
+### Évaluation et Optimisation des Algorithmes
+Évaluer et optimiser les algorithmes de boucle dans le code en recherchant des structures plus efficaces pour contribuer à une exécution plus rapide et à une consommation moindre de ressources.
+Utiliser la JVM (Java Virtual Machine) pour repérer le code non performant et gourmand en ressources. 

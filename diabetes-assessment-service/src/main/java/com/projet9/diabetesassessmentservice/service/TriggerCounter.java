@@ -34,7 +34,7 @@ public class TriggerCounter {
 
         Set<String> triggersInPatientNotes = new HashSet<>();
 
-        // Chaque trigger qui apparait au moins une fois est ajouté à mon set
+        //Chaque trigger qui apparait au moins une fois est ajouté à mon set
         for (String trigger : triggers) {
             if (notes.stream().anyMatch(note -> note.contains(trigger))) {
                 triggersInPatientNotes.add(trigger);
@@ -42,6 +42,7 @@ public class TriggerCounter {
         }
         return Long.valueOf( triggersInPatientNotes.stream().count()).intValue();
     }
+        // Je n'ai pas utilisé un "int count" pour pouvoir faire évoluer la fonctionnalité
 
     private List<String> getNotesInStringAndInLowercase(List<NoteDto> noteDto) {
         //Collecte toutes les notes dans une List<String> en minuscule

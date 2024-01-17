@@ -43,7 +43,7 @@ public class SpringSecurityConfig {
     public MapReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.builder()
                 .username(username)
-                .password(passwordEncoder().encode( password))
+                .password(passwordEncoder().encode(password))
                 .roles("ADMIN")
                 .build();
         return new MapReactiveUserDetailsService(user);

@@ -49,14 +49,15 @@ Mot de passe: `password`
 
 
 ## Recommandations d'amélioration Green du projet
+Dans un souci de réduction de l'impact écologique de ce projet, voici quelques pistes d'améliorations Green Code:
 
 ### Optimisation des Dépendances
 Évaluer l'utilité des dépendances, qui peuvent parfois générer du code inutilisé (ex : lombock). Supprimer ou réduire l'utilisation de ces dépendances peu alléger l'empreinte du projet.
 <br>
-Privilégier l'utilisation du **driver Java de MongoDB** pour les interactions avec la base de données plutôt que le framework Spring Data MongoDB, plus technique à utiliser, mais favorise la performance en optimisant le temps de traitement des requêtes, contribuant ainsi à une utilisation plus efficace des ressources.
+Privilégier l'utilisation du **driver Java de MongoDB** pour les interactions avec la base de données plutôt que le framework Spring Data MongoDB, plus technique à utiliser, mais qui favorise la performance en optimisant le temps de traitement des requêtes, contribuant ainsi à une utilisation plus efficace des ressources.
 ### Utilisation Efficace de Docker
-Intégrer le fichier .dockerignore pour exclure les dossiers inutiles à la construction de l'image (ex : dossier target), réduisant ainsi la taille des images générées.
+Intégrer le fichier .dockerignore pour exclure les dossiers inutiles à la construction de l'image (ex : dossier target), réduisant ainsi la taille des images générées.  
 Lors de la reconstruction des images Docker à l'aide de `docker-compose up`, veiller à supprimer uniquement les images nécessaires pour éviter de re-télécharger une image plusieurs fois et contribuer à réduire la demande en bande passante (particulièrement concernant les images des bases de données).
 ### Évaluation et Optimisation des Algorithmes
-Utiliser des outils de profilage comme VisualVM pour repérer le code non performant et gourmand en ressources.
+Utiliser des outils de profilage comme VisualVM pour repérer le code non performant et gourmand en ressources.  
 Évaluer et optimiser les algorithmes de boucle dans le code en recherchant des structures plus efficaces pour contribuer à une exécution plus rapide et à une consommation moindre de ressources.

@@ -58,5 +58,5 @@ Privilégier l'utilisation du **driver Java de MongoDB** pour les interactions a
 Intégrer le fichier .dockerignore pour exclure les dossiers inutiles à la construction de l'image (ex : dossier target), réduisant ainsi la taille des images générées.
 Lors de la reconstruction des images Docker à l'aide de `docker-compose up`, veiller à supprimer uniquement les images nécessaires pour éviter de re-télécharger une image plusieurs fois et contribuer à réduire la demande en bande passante (particulièrement concernant les images des bases de données).
 ### Évaluation et Optimisation des Algorithmes
+Utiliser des outils de profilage comme VisualVM pour repérer le code non performant et gourmand en ressources.
 Évaluer et optimiser les algorithmes de boucle dans le code en recherchant des structures plus efficaces pour contribuer à une exécution plus rapide et à une consommation moindre de ressources.
-Utiliser la JVM (Java Virtual Machine) pour repérer le code non performant et gourmand en ressources. 

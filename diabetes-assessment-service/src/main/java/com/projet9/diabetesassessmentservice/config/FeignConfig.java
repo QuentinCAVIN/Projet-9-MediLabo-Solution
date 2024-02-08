@@ -8,8 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 
 public class FeignConfig {
+
     @Value("${security.in.memory.username}")
-    String username ;
+    String username;
     @Value("${security.in.memory.password}")
     String password;
 

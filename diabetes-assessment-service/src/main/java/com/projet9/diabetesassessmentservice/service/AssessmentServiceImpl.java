@@ -27,9 +27,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 
         if (numberOfTriggers < 2) {
             return Assessment.None;//None
-        }
-
-        else if (age >= 30) {
+        } else if (age >= 30) {
             if (numberOfTriggers >= 8) {
                 return Assessment.EarlyOnset;//Early onset
             } else if (numberOfTriggers >= 6) {
@@ -37,23 +35,25 @@ public class AssessmentServiceImpl implements AssessmentService {
             } else if (numberOfTriggers >= 2) {
                 return Assessment.Borderline;// Borderline
             }
-        }
-
-        else {
+        } else {
             switch (gender) {
                 case "Female": {
                     if (numberOfTriggers >= 7) {
                         return Assessment.EarlyOnset;//Early onset
                     } else if (numberOfTriggers >= 4) {
                         return Assessment.InDanger;//In Danger
+                    } else if (numberOfTriggers <= 3) {
+                        return Assessment.None;//None
                     }
                 }
                 //gender peut prendre la valeur Unknown, on traite ce cas de la manière la plus contraignante par sécurité.
                 default: {
                     if (numberOfTriggers >= 5) {
-                        return  Assessment.EarlyOnset;//Early onset
-                    } else if  (numberOfTriggers >= 3) {
-                        return  Assessment.InDanger;//in Danger
+                        return Assessment.EarlyOnset;//Early onset
+                    } else if (numberOfTriggers >= 3) {
+                        return Assessment.InDanger;//in Danger
+                    } else if (numberOfTriggers <= 2) {
+                        return Assessment.None;//None
                     }
                 }
             }

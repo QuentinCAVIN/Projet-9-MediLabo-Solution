@@ -1,7 +1,6 @@
 package com.projet9.patientservice.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

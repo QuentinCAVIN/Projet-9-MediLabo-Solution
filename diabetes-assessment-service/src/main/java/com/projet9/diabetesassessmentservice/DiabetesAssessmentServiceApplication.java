@@ -7,8 +7,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableFeignClients("com.projet9.diabetesassessmentservice")
 public class DiabetesAssessmentServiceApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(DiabetesAssessmentServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DiabetesAssessmentServiceApplication.class, args);
+    }
 
 }

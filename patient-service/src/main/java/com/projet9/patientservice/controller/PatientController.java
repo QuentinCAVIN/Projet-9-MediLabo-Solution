@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class PatientController {
+
     private PatientService patientService;
 
     public PatientController(PatientService patientService) {

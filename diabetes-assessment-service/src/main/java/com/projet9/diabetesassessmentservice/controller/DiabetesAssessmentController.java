@@ -12,8 +12,7 @@ public class DiabetesAssessmentController {
 
     AssessmentService assessmentService;
 
-    public DiabetesAssessmentController(AssessmentService assessmentService)
-    {
+    public DiabetesAssessmentController(AssessmentService assessmentService) {
         this.assessmentService = assessmentService;
     }
 

@@ -19,7 +19,7 @@ public class TriggerCounter {
         triggers.add(("Microalbumine").toLowerCase());
         triggers.add(("Taille").toLowerCase());
         triggers.add(("Poids").toLowerCase());
-        triggers.add(("Fumeu").toLowerCase());
+        triggers.add(("Fume").toLowerCase());
         triggers.add(("Anormal").toLowerCase());
         triggers.add(("Cholestérol").toLowerCase());
         triggers.add(("Vertiges").toLowerCase());

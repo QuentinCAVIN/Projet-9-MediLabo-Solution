@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients("com.projet9.clientui")
 public class ClientuiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ClientuiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ClientuiApplication.class, args);
+    }
 }

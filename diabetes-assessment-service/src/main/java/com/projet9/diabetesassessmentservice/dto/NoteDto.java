@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoteDto {
+
     private String id;
     private int patId;
     private String note;

@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GenderRepository extends JpaRepository<Gender, Integer> {
+
     Gender findByGender(String gender);
 }

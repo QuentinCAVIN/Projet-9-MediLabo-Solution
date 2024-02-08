@@ -24,8 +24,9 @@ public class DiabetesAssessmentControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
     @Test
-    public void patientDiabetesAssessment() throws Exception{
+    public void patientDiabetesAssessment() throws Exception {
         int patientId = 1;
         Assessment assessment = Assessment.None;
         Mockito.when(assessmentService.patientDiabetesAssessment(patientId)).thenReturn(assessment);

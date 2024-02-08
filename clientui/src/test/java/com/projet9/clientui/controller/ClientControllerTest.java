@@ -75,7 +75,7 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attribute("notes", Matchers.hasItem(
                         Matchers.samePropertyValuesAs(dummyNote))))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("noteToSave"))
-                .andExpect(MockMvcResultMatchers.model().attribute("assessment",AssessmentDto.None));
+                .andExpect(MockMvcResultMatchers.model().attribute("assessment", AssessmentDto.None));
 
         /* example: https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
          */
@@ -103,7 +103,7 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attribute("notes", Matchers.hasItem(
                         Matchers.samePropertyValuesAs(dummyNote))))
                 .andExpect(MockMvcResultMatchers.model().attribute("noteToSave", dummyNote))
-                .andExpect(MockMvcResultMatchers.model().attribute("assessment",AssessmentDto.None));
+                .andExpect(MockMvcResultMatchers.model().attribute("assessment", AssessmentDto.None));
 
         /* example: https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
          */
@@ -156,7 +156,7 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
                         "/patient/display?patientId=" + dummyPatient.getId()));
         Mockito.verify(proxy, Mockito.times(1))
-                .savePatient(Mockito.any(PatientDto.class));
+                .updatePatient(Mockito.any(PatientDto.class));
     }
 
     @Test
@@ -179,9 +179,9 @@ public class ClientControllerTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
                         "/patient/display?patientId=" + dummyPatient.getId()));
         Mockito.verify(proxy, Mockito.times(1))
-                .savePatient(Mockito.any(PatientDto.class));
+                .updatePatient(Mockito.any(PatientDto.class));
         ArgumentCaptor<PatientDto> captor = ArgumentCaptor.forClass(PatientDto.class);
-        Mockito.verify(proxy).savePatient(captor.capture());
+        Mockito.verify(proxy).updatePatient(captor.capture());
         PatientDto savedPatient = captor.getValue();
         Assertions.assertThat(savedPatient.getAddress()).isNull();
     }
@@ -282,14 +282,14 @@ public class ClientControllerTest {
         NoteDto dummyNote = getDummyNote();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/note/save")
-                        .param("id","")
+                        .param("id", "")
                         .param("note", dummyNote.getNote())
                         .param("patient", dummyNote.getPatient())
-                        .param("patId", String.valueOf( dummyNote.getPatId())))
+                        .param("patId", String.valueOf(dummyNote.getPatId())))
 
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
-                        "/patient/display?patientId=" + dummyNote .getPatId()));
+                        "/patient/display?patientId=" + dummyNote.getPatId()));
         ArgumentCaptor<NoteDto> captor = ArgumentCaptor.forClass(NoteDto.class);
         Mockito.verify(proxy, Mockito.times(1))
                 .createNote(captor.capture());
@@ -302,22 +302,20 @@ public class ClientControllerTest {
         NoteDto dummyNote = getDummyNote();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/note/save")
-                        .param("id",dummyNote.getId())
+                        .param("id", dummyNote.getId())
                         .param("note", dummyNote.getNote())
                         .param("patient", dummyNote.getPatient())
-                        .param("patId", String.valueOf( dummyNote.getPatId())))
+                        .param("patId", String.valueOf(dummyNote.getPatId())))
 
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl(
-                        "/patient/display?patientId=" + dummyNote .getPatId()));
+                        "/patient/display?patientId=" + dummyNote.getPatId()));
         ArgumentCaptor<NoteDto> captor = ArgumentCaptor.forClass(NoteDto.class);
         Mockito.verify(proxy, Mockito.times(0))
                 .createNote(captor.capture());
         Mockito.verify(proxy, Mockito.times(1))
                 .updateNote(captor.capture());
     }
-
-
 
 
     ///////////////////////////DELETE///////////////////////////
@@ -341,7 +339,7 @@ public class ClientControllerTest {
         NoteDto dummyNote = getDummyNote();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/note/delete/{id}", dummyNote.getId())
-                        .param("patientId",String.valueOf(dummyNote.getPatId())))
+                        .param("patientId", String.valueOf(dummyNote.getPatId())))
 
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers

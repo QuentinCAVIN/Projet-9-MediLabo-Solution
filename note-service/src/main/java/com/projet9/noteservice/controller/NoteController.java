@@ -11,6 +11,7 @@ import java.util.List;
 
 @Controller
 public class NoteController {
+
     private NoteService noteService;
 
     public NoteController(NoteService noteService) {
@@ -48,7 +49,7 @@ public class NoteController {
     }
 
     @DeleteMapping("/note/patient/{id}")
-    public ResponseEntity deleteNoteByPatient(@PathVariable("id")int patientId) {
+    public ResponseEntity deleteNoteByPatient(@PathVariable("id") int patientId) {
         noteService.deleteNoteByPatientId(patientId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

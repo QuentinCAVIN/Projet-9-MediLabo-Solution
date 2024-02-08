@@ -21,19 +21,22 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @Configuration
 @EnableWebFluxSecurity
 public class SpringSecurityConfig {
+
     @Value("${security.in.memory.username}")
     String username;
     @Value("${security.in.memory.password}")
     String password;
 
     @Bean
-    SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http){
+    SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.csrf(csrf -> csrf.disable());
         http
-                .authorizeExchange(exchanges -> {exchanges
-                                .pathMatchers("/**")
-                                .hasRole("ADMIN");
-                    exchanges.anyExchange().authenticated();}
+                .authorizeExchange(exchanges -> {
+                            exchanges
+                                    .pathMatchers("/**")
+                                    .hasRole("ADMIN");
+                            exchanges.anyExchange().authenticated();
+                        }
                 )
                 .httpBasic(Customizer.withDefaults());
         return http.build();

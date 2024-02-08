@@ -9,17 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NoteServiceApplication implements CommandLineRunner {
 
-	@Autowired
-	private LoadDataService loader;
-	public static void main(String[] args) {
-		SpringApplication.run(NoteServiceApplication.class, args);
-	}
+    @Autowired
+    private LoadDataService loader;
 
-	@Override
-	public void run(String... args) throws Exception {
-		loader.loadData();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(NoteServiceApplication.class, args);
+    }
 
-
-
+    @Override
+    public void run(String... args) throws Exception {
+        loader.loadData();
+    }
 }

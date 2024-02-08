@@ -1,7 +1,7 @@
-INSERT IGNORE INTO gender (gender) VALUES ('Male');
-INSERT IGNORE INTO gender (gender) VALUES ('Female');
-INSERT IGNORE INTO gender (gender) VALUES ('Not known');
-INSERT IGNORE INTO gender (gender) VALUES ('Not applicable');
+INSERT IGNORE INTO gender (id, gender) VALUES (1, 'Female');
+INSERT IGNORE INTO gender (id, gender) VALUES (2, 'Male');
+INSERT IGNORE INTO gender (id, gender) VALUES (3, 'Not known');
+INSERT IGNORE INTO gender (id, gender) VALUES (4, 'Not applicable');
 
 INSERT IGNORE INTO address (id, number, street) VALUES
 (1, '1', 'Brookside St'),

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatientDto {
+
     private int id;
     private LocalDate dateOfBirth;
     private GenderDto gender;

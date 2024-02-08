@@ -13,6 +13,7 @@ import lombok.Setter;
 @Entity
 @Table
 public class Gender {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

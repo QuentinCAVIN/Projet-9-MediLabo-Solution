@@ -32,7 +32,7 @@ public class ClientController {
         model.addAttribute("patient", proxy.getPatient(patientId));
         model.addAttribute("notes", proxy.getNotesByPatientId(patientId));
         model.addAttribute("assessment", proxy.patientDiabetesAssessment(patientId));
-        if (noteId != null){
+        if (noteId != null) {
             model.addAttribute("noteToSave", proxy.getNoteById(noteId));
         } else {
             model.addAttribute("noteToSave", new NoteDto());
@@ -56,13 +56,13 @@ public class ClientController {
     //////////////////SAVE ///////////////////////
 
     @PostMapping("/patient/update")
-    public String validateUpdatePatient(@Valid @ModelAttribute ("patient") PatientDto patientDto,
+    public String validateUpdatePatient(@Valid @ModelAttribute("patient") PatientDto patientDto,
                                         BindingResult result, Model model) {
-        if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){
+        if ((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber() == "")) {
             patientDto.setAddress(null);
         }
-        if (!result.hasErrors()){
-        proxy.updatePatient(patientDto);
+        if (!result.hasErrors()) {
+            proxy.updatePatient(patientDto);
             return "redirect:/patient/display?patientId=" + patientDto.getId();
         }
         model.addAttribute("patient", patientDto);
@@ -70,18 +70,18 @@ public class ClientController {
     }
 
     @PostMapping("/patient/validate")
-    public String validateNewPatient(@Valid @ModelAttribute("patient") PatientDto patientDto,  BindingResult result, Model model) {
-        PatientDto patientAlreadyPresentInDTB = proxy.getPatient(patientDto.getFirstName(),patientDto.getLastName());
+    public String validateNewPatient(@Valid @ModelAttribute("patient") PatientDto patientDto, BindingResult result, Model model) {
+        PatientDto patientAlreadyPresentInDTB = proxy.getPatient(patientDto.getFirstName(), patientDto.getLastName());
         if (patientAlreadyPresentInDTB != null) {
-            result.rejectValue("firstName",null,
-                    patientDto.getFirstName() + " " + patientDto .getLastName() + " is already registered");
+            result.rejectValue("firstName", null,
+                    patientDto.getFirstName() + " " + patientDto.getLastName() + " is already registered");
         }
-        if((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber()== "")){
+        if ((patientDto.getAddress().getStreet() == "") && (patientDto.getAddress().getNumber() == "")) {
             patientDto.setAddress(null);
         }
-        if (!result.hasErrors()){
-        proxy.savePatient(patientDto);
-        return "redirect:/patient";
+        if (!result.hasErrors()) {
+            proxy.savePatient(patientDto);
+            return "redirect:/patient";
         }
         model.addAttribute("patient", patientDto);
         return "add-new-patient";
@@ -89,7 +89,7 @@ public class ClientController {
 
     @PostMapping("/note/save")
     public String saveNote(@ModelAttribute("noteToSave") NoteDto note) {
-        if (note.getId().isEmpty()){
+        if (note.getId().isEmpty()) {
             note.setId(null);
             proxy.createNote(note);
         } else {
@@ -107,8 +107,8 @@ public class ClientController {
         return "redirect:/patient";
     }
 
-    @GetMapping ("/note/delete/{id}")
-    public String deleteNote(@PathVariable("id") String id, @RequestParam int patientId){
+    @GetMapping("/note/delete/{id}")
+    public String deleteNote(@PathVariable("id") String id, @RequestParam int patientId) {
         proxy.deleteNote(id);
         return "redirect:/patient/display?patientId=" + patientId;
     }

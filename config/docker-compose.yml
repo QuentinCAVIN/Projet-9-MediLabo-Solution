@@ -8,7 +8,7 @@ services:
     ports:
       - 8080:8080 #HOST:CONTAINER
     environment:
-      link.to.the.gateway : "gateway:9101"
+      link.to.the.gateway: "gateway:9101"
       #va venir surcharger la propriété dans application.properties pour que le FeignClient pointe vers le docker gateway (et pas le localhost, comme indiqué dans le dockerfile)
 
   gateway:
@@ -43,14 +43,14 @@ services:
   mysql-db:
     image: mysql:8.0
     volumes:
-     - mysql-db:/var/lib/mysql
+      - mysql-db:/var/lib/mysql
     restart: always
     environment:
       MYSQL_DATABASE: patient_service
       MYSQL_ROOT_PASSWORD: password
     ports:
       - 3307:3306 #le port 3306 est déjà occupé sur ma machine par mysql -> j'utilise le 3307.
-                  #Le port utilisé par mysql par défaut dans le docker est le 3306
+      #Le port utilisé par mysql par défaut dans le docker est le 3306
 
   note-service:
     build: ../note-service
@@ -62,15 +62,15 @@ services:
     environment:
       spring.data.mongodb.host: mongodb
       spring.data.mongodb.port: 27017
-      spring.data.mongodb.database : note-service
+      spring.data.mongodb.database: note-service
   mongodb:
     image: mongo
     volumes:
       - mongodb:/var/lib/mysql
     restart: always
-#    environment:
-#      MYSQL_DATABASE: patient_service
-#     MYSQL_ROOT_PASSWORD: password
+    #    environment:
+    #      MYSQL_DATABASE: patient_service
+    #     MYSQL_ROOT_PASSWORD: password
     ports:
       - 27018:27017 #le port 27017 est déjà occupé sur ma machine par mongodb -> j'utilise le 27018.
       #Le port utilisé par mongodb par défaut dans le docker est le 27017
@@ -84,5 +84,5 @@ services:
       link.to.the.gateway: "gateway:9101"
 
 volumes:
- mysql-db:
- mongodb:
+  mysql-db:
+  mongodb:

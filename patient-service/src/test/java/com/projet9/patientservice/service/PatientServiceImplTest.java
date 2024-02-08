@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientServiceImplTest {
+
     @Mock
     PatientRepository patientRepository;
     @Mock
@@ -70,8 +71,8 @@ public class PatientServiceImplTest {
 
         Mockito.when(genderService.getGender(dummyPatient.getGender().getGender())).thenReturn(genderInDatabase);
         Mockito.when(addressService.getAddress(
-                dummyPatient.getAddress().getNumber(), dummyPatient.getAddress().getStreet()))
-                        .thenReturn(null);
+                        dummyPatient.getAddress().getNumber(), dummyPatient.getAddress().getStreet()))
+                .thenReturn(null);
 
         patientServiceUnderTest.savePatient(dummyPatient);
 

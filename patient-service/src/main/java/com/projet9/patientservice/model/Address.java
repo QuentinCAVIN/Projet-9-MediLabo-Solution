@@ -15,6 +15,7 @@ import lombok.Setter;
         uniqueConstraints =
         @UniqueConstraint(columnNames = {"number", "street"}))
 public class Address {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;

@@ -6,9 +6,8 @@ Pour exécuter l'application avec docker, suivez les étapes ci-dessous.
 
 ## Prérequis
 
-Avant de commencer, assurez-vous d'avoir installé Docker et Docker Compose sur votre machine. Si ce n'est pas le cas, vous pouvez les télécharger depuis le site officiel de Docker :
+Avant de commencer, assurez-vous d'avoir installé Docker Desktop sur votre machine. Si ce n'est pas le cas, vous pouvez les télécharger depuis le site officiel de Docker :
 - [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Clonage du Projet
 
